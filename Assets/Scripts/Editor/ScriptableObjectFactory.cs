@@ -60,7 +60,10 @@ namespace Editor
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
             
-            return (from assembly in assemblies from type in assembly.GetTypes() where type.IsSubclassOf(baseType) select type).ToList();
+            return (from assembly in assemblies from type in assembly.GetTypes() 
+                where type.IsSubclassOf(baseType) && 
+                      !type.IsAbstract && 
+                      !type.IsInterface select type).ToList();
         }
     }
 }
