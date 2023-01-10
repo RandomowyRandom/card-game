@@ -22,12 +22,49 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes:
     - Name: _cardEffects
-      Entry: 6
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[Scriptables.Cards.Abstractions.ICardEffect,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 3
+    - Name: 
+      Entry: 7
+      Data: 1|Scriptables.Cards.Effects.GainMoneySelfCardEffect, Assembly-CSharp
+    - Name: _money
+      Entry: 3
+      Data: 15
+    - Name: 
+      Entry: 8
       Data: 
-  _cardName: 
-  _description: 
-  _rarity: 0
+    - Name: 
+      Entry: 7
+      Data: 2|Scriptables.Cards.Effects.GainMoneyEnemyCardEffect, Assembly-CSharp
+    - Name: _money
+      Entry: 3
+      Data: 15
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 3|Scriptables.Cards.Effects.DamageEnemyCardEffect, Assembly-CSharp
+    - Name: _damage
+      Entry: 3
+      Data: 20
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  _cardName: Safe
+  _description: Deals 20 damage, gives you and the opponent 15 coins
+  _rarity: 2
   _cardSprite: {fileID: 0}
   _upgradeCard: {fileID: 0}
-  _energyCost: 0
+  _energyCost: 4
   _isSpecial: 0

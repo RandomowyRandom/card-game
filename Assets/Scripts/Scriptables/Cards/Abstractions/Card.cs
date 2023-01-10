@@ -38,7 +38,15 @@ namespace Scriptables.Cards.Abstractions
 
         [Space(5)] [OdinSerialize]
         private List<ICardEffect> _cardEffects;
+        
+        [InfoBox("TestCard button for debug purposes only!", InfoMessageType.Warning)]
+        [Button]
+        private void TestCard()
+        {
+            Use();
+        }
 
+        
         public string CardName => _cardName;
 
         public string Description => _description;
