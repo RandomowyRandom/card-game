@@ -59,11 +59,18 @@ namespace Editor
         private static List<Type> GetDerivedTypes(Type baseType)
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            
+
             return (from assembly in assemblies from type in assembly.GetTypes() 
                 where type.IsSubclassOf(baseType) && 
-                      !type.IsAbstract && 
+                      !type.IsAbstract &&
+                      HasAttribute(type) &&
                       !type.IsInterface select type).ToList();
+        }
+        
+        private static bool HasAttribute(Type type)
+        {
+            var attributes = type.GetCustomAttributes(typeof(ScriptableFactoryElementAttribute), false);
+            return attributes.Length > 0;
         }
     }
 }

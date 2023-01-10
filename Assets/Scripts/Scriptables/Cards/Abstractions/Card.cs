@@ -1,10 +1,14 @@
-﻿using Cards;
+﻿using System.Collections.Generic;
+using Cards;
+using Editor;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UnityEngine;
 
 namespace Scriptables.Cards.Abstractions
 {
-    public abstract class Card : SerializedScriptableObject
+    [ScriptableFactoryElement]
+    public class Card : SerializedScriptableObject
     {
         [SerializeField]
         private string _cardName;
@@ -26,10 +30,14 @@ namespace Scriptables.Cards.Abstractions
         // X = all the player's energy
         [InfoBox("If the card is player energy dependent, set this to -1")]
         [SerializeField]
+        [Range(-1, 8)]
         private int _energyCost;
         
         [SerializeField]
         private bool _isSpecial;
+
+        [Space(5)] [OdinSerialize]
+        private List<ICardEffect> _cardEffects;
 
         public string CardName => _cardName;
 
@@ -43,6 +51,12 @@ namespace Scriptables.Cards.Abstractions
 
         public bool IsSpecial => _isSpecial;
 
-        public abstract void Use();
+        public virtual void Use()
+        {
+            foreach (var effect in _cardEffects)
+            {
+                effect.OnUse();
+            }
+        }
     }
 }
