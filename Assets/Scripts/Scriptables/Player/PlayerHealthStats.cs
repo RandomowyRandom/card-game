@@ -1,8 +1,10 @@
-﻿using Sirenix.OdinInspector;
+﻿using Editor;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Scriptables.Player
 {
+    [ScriptableFactoryElement]
     public class PlayerHealthStats : SerializedScriptableObject
     {
         [SerializeField]

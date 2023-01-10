@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97138b142fba45368753ec7e1b76a462, type: 3}
+  m_Name: MONEY_II
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _cardEffects
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[Scriptables.Cards.Abstractions.ICardEffect,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 1|Scriptables.Cards.Effects.GainMoneySelfCardEffect, Assembly-CSharp
+    - Name: _money
+      Entry: 3
+      Data: 5
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  _cardName: Money II
+  _description: Gain 5 coins
+  _rarity: 0
+  _cardSprite: {fileID: 0}
+  _upgradeCard: {fileID: 11400000, guid: f58eec3b149398941a750622dc49be39, type: 2}
+  _energyCost: 0
+  _isSpecial: 0
