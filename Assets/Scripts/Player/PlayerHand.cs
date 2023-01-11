@@ -1,6 +1,10 @@
 ﻿using System.Collections.Generic;
+using Cards;
+using JetBrains.Annotations;
 using Mirror;
 using Scriptables.Cards.Abstractions;
+using ServiceLocator.ServicesAbstraction;
+using UnityEngine;
 
 namespace Player
 {
@@ -36,6 +40,46 @@ namespace Player
             _cardsKeys.Remove(cardKey);
         }
 
+        #endregion
+
+        #region QC
+
+        [QFSW.QC.Command("add-random-card")] [UsedImplicitly]
+        private void AddRandomCard()
+        {
+            var cardDeck = ServiceLocator.ServiceLocator.Instance.Get<ICardDeck>();
+
+            var card = cardDeck.DrawCard();
+            AddCard(card);
+            
+            Debug.Log($"Added {card.name} to the player's hand");
+        }
+
+        [QFSW.QC.Command("add-random-card-rarity")]
+        [UsedImplicitly]
+        private void AddRandomCardRarity(CardRarity rarity)
+        {
+            var cardDeck = ServiceLocator.ServiceLocator.Instance.Get<ICardDeck>();
+
+            var card = cardDeck.DrawCard(rarity);
+            AddCard(card);
+            
+            Debug.Log($"Added {card.name} to the player's hand");
+        }
+
+        
+        [QFSW.QC.Command("log-all-cards")] [UsedImplicitly]
+        private void LogAllCards()
+        {
+            Debug.Log("Cards in hand:");
+            foreach (var card in _cards)
+            {
+                Debug.Log(card.name);
+            }
+        }
+
+        
+        
         #endregion
     }
 }

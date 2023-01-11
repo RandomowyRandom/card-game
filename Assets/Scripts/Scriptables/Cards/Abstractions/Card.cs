@@ -58,6 +58,8 @@ namespace Scriptables.Cards.Abstractions
         public int EnergyCost => _energyCost;
 
         public bool IsSpecial => _isSpecial;
+        
+        public CardRarity Rarity => _rarity;
 
         public virtual void Use()
         {

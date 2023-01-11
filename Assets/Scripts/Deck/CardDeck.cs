@@ -11,10 +11,9 @@ namespace Deck
     {
         [SerializeField]
         private CardDatabase _cardDatabase;
-        
         private void Awake()
         {
-            ServiceLocator.ServiceLocator.Instance.Register(this);
+            ServiceLocator.ServiceLocator.Instance.Register<ICardDeck>(this);
         }
 
         private void OnDestroy()
@@ -30,12 +29,12 @@ namespace Deck
 
         public Card DrawCard(CardRarity rarity)
         {
-            throw new NotImplementedException();
+            return _cardDatabase.GetRandomCard(rarity);
         }
 
-        public Card DrawCard(CardRarity[] rarity)
+        public Card DrawCard(CardRarity[] rarities)
         {
-            throw new NotImplementedException();
+            return _cardDatabase.GetRandomCard(rarities);
         }
 
         public void ReturnCard(Card card)

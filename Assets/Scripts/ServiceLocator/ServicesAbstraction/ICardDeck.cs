@@ -9,7 +9,7 @@ namespace ServiceLocator.ServicesAbstraction
 
         public Card DrawCard(CardRarity rarity);
 
-        public Card DrawCard(CardRarity[] rarity);
+        public Card DrawCard(CardRarity[] rarities);
 
         public void ReturnCard(Card card);
     }
