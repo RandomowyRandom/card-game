@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Cards;
-using Editor;
+using Common.Attributes;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEngine;
