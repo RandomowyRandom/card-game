@@ -20,24 +20,26 @@ namespace Player
         [SyncVar(hook = nameof(OnHealthChangedHook))]
         private int _currentHealth;
         
-        [SyncVar]
+        [SyncVar(hook = nameof(OnArmorChangedHook))]
         private int _currentArmor;
+        
         public int CurrentHealth => _currentHealth;
         public int CurrentArmor => _currentArmor;
 
+        public int MaxHealth => _playerBaseHealthStats.MaxHealth;
         public event Action<int> OnHealthChanged;
-        
-        public override void OnStartAuthority()
-        {
-            ServiceLocator.ServiceLocator.Instance.Register<IPlayerHealth>(this);
-        }
-
+        public event Action<int> OnArmorChanged;
         private void OnDestroy()
         {
             if (!isOwned)
                 return;
             
             ServiceLocator.ServiceLocator.Instance.Deregister<IPlayerHealth>();
+        }
+        
+        public override void OnStartAuthority()
+        {
+            ServiceLocator.ServiceLocator.Instance.Register<IPlayerHealth>(this);
         }
         
         public void Heal(int health)
@@ -93,6 +95,11 @@ namespace Player
         private void OnHealthChangedHook([UsedImplicitly] int oldHealth, int newHealth)
         {
             OnHealthChanged?.Invoke(newHealth);
+        }
+        
+        private void OnArmorChangedHook([UsedImplicitly] int oldArmor, int newArmor)
+        {
+            OnArmorChanged?.Invoke(newArmor);
         }
         
         [Mirror.Command]
@@ -158,8 +165,50 @@ namespace Player
             yield return new Value("Select player");
             yield return new Choice<PlayerHealth>(targets, t => target = t);
 
-            target.Heal(health);
+            target.TakeDamage(health);
             Debug.Log($"Damaged {target.name} for {health}");
+        }
+        
+        [QFSW.QC.Command("set-armor")] [UsedImplicitly]
+        private IEnumerator<ICommandAction> SetArmorCommand(int armor)
+        {
+            PlayerHealth target = default;
+
+            var targets = InvocationTargetFactory.FindTargets<PlayerHealth>(MonoTargetType.All);
+
+            yield return new Value("Select player");
+            yield return new Choice<PlayerHealth>(targets, t => target = t);
+
+            target.SetArmor(armor);
+            Debug.Log($"Changed {target.name} to {armor} armor");
+        }
+        
+        [QFSW.QC.Command("add-armor")] [UsedImplicitly]
+        private IEnumerator<ICommandAction> AddArmorCommand(int armor)
+        {
+            PlayerHealth target = default;
+
+            var targets = InvocationTargetFactory.FindTargets<PlayerHealth>(MonoTargetType.All);
+
+            yield return new Value("Select player");
+            yield return new Choice<PlayerHealth>(targets, t => target = t);
+
+            target.AddArmor(armor);
+            Debug.Log($"Added {armor} armor to {target.name}");
+        }
+        
+        [QFSW.QC.Command("remove-armor")] [UsedImplicitly]
+        private IEnumerator<ICommandAction> RemoveArmorCommand(int armor)
+        {
+            PlayerHealth target = default;
+
+            var targets = InvocationTargetFactory.FindTargets<PlayerHealth>(MonoTargetType.All);
+
+            yield return new Value("Select player");
+            yield return new Choice<PlayerHealth>(targets, t => target = t);
+
+            target.RemoveArmor(armor);
+            Debug.Log($"Removed {armor} armor from {target.name}");
         }
         
         #endregion

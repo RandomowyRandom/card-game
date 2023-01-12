@@ -1,6 +1,5 @@
 ﻿using System;
 using Mirror;
-using Scriptables.Player;
 using ServiceLocator.ServicesAbstraction;
 using TMPro;
 using UnityEngine;
@@ -13,8 +12,8 @@ namespace UI
         private TMP_Text _healthText;
         
         [SerializeField]
-        private PlayerHealthStats _playerHealthStats;
-
+        private TMP_Text _armorText;
+        
         private IPlayerHealth _playerHealth;
 
         private IPlayerHealth PlayerHealth
@@ -28,27 +27,37 @@ namespace UI
 
         private void Awake()
         {
-            ServiceLocator.ServiceLocator.Instance.OnServiceRegistered += SubscribeToHealthEvent;
+            ServiceLocator.ServiceLocator.Instance.OnServiceRegistered += SubscribeToEvents;
         }
         
         private void OnDestroy()
         {
-            PlayerHealth.OnHealthChanged -= UpdateUI;
-            ServiceLocator.ServiceLocator.Instance.OnServiceRegistered -= SubscribeToHealthEvent;
+            PlayerHealth.OnHealthChanged -= UpdateHealthUI;
+            PlayerHealth.OnArmorChanged -= UpdateArmorUI;
+            
+            ServiceLocator.ServiceLocator.Instance.OnServiceRegistered -= SubscribeToEvents;
         }
         
-        private void UpdateUI(int health)
+        private void UpdateHealthUI(int health)
         {
-            _healthText.text = $"{health.ToString()} / {_playerHealthStats.MaxHealth}";
+            _healthText.text = $"{health.ToString()} / {PlayerHealth.MaxHealth}";
+        }
+        private void UpdateArmorUI(int armor)
+        {
+            _armorText.text = armor.ToString();
         }
         
-        private void SubscribeToHealthEvent(Type type)
+        private void SubscribeToEvents(Type type)
         {
             if (type != typeof(IPlayerHealth)) 
                 return;
             
-            PlayerHealth.OnHealthChanged += UpdateUI;
-            UpdateUI(PlayerHealth.CurrentHealth);
+            PlayerHealth.OnHealthChanged += UpdateHealthUI;
+            PlayerHealth.OnArmorChanged += UpdateArmorUI;
+            
+            UpdateHealthUI(PlayerHealth.CurrentHealth);
+            UpdateArmorUI(0);
         }
+
     }
 }
