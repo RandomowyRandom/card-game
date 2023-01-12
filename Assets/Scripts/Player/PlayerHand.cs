@@ -72,9 +72,9 @@ namespace Player
         private void LogAllCards()
         {
             Debug.Log("Cards in hand:");
-            foreach (var card in _cards)
+            foreach (var card in _cardsKeys)
             {
-                Debug.Log(card.name);
+                Debug.Log(card);
             }
         }
 
