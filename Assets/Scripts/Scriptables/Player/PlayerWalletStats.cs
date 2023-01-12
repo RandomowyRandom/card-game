@@ -1,4 +1,4 @@
-﻿using Editor;
+﻿using Common.Attributes;
 using Sirenix.OdinInspector;
 using UnityEngine;
 

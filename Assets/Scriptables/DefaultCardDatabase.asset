@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3406bc6f36544b41a23ca999c8748a52, type: 3}
+  m_Name: DefaultCardDatabase
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  _cards:
+  - {fileID: 11400000, guid: 9ca92d6793685f34d888335dddbedf44, type: 2}
+  - {fileID: 11400000, guid: 98e11f44a0fd71f48843c20f885f58da, type: 2}
+  - {fileID: 11400000, guid: 2bfa0f1c6ef4b6d4a89cd2cc9198b023, type: 2}
+  - {fileID: 11400000, guid: fa188a29f229e0240b08b096e3671004, type: 2}
+  - {fileID: 11400000, guid: cd967e8e345163948bf74479c1f2db79, type: 2}
+  - {fileID: 11400000, guid: 38d3e63fd41bb3a4e82ecb4d00e1fd4c, type: 2}
+  - {fileID: 11400000, guid: 7394e6eb9f12ab2409e8940145ade93c, type: 2}
+  - {fileID: 11400000, guid: dd93a064067433f47afdc7356b7c165c, type: 2}
+  - {fileID: 11400000, guid: 4d952b0a2af8bc241b60c7a6bf47e374, type: 2}
+  - {fileID: 11400000, guid: 25cab2526fd33cb4ba8eb6a43396166d, type: 2}
+  - {fileID: 11400000, guid: 59ff4cc36acf81347819ab1557b7bc68, type: 2}
+  - {fileID: 11400000, guid: 6b3c482bb79d29141b401f5b38ef8c97, type: 2}
+  - {fileID: 11400000, guid: 3b9689a6358851747831942f0599d4bf, type: 2}
+  - {fileID: 11400000, guid: 1e3e0b2425783134aa81060af8240399, type: 2}
+  - {fileID: 11400000, guid: 68ac117025d3d1d408e29f2386dfbb7f, type: 2}
+  - {fileID: 11400000, guid: abe6cd986c0c05649b4c3133068fd913, type: 2}
+  - {fileID: 11400000, guid: f58eec3b149398941a750622dc49be39, type: 2}
+  - {fileID: 11400000, guid: 6f2390004ff321a4da3455a85503b6a2, type: 2}
+  - {fileID: 11400000, guid: f3e702b81798c9d408c6f60597445504, type: 2}

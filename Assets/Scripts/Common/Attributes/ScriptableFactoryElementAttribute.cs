@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Editor
+namespace Common.Attributes
 {
     [AttributeUsage(AttributeTargets.Class)]
     public class ScriptableFactoryElementAttribute : Attribute
