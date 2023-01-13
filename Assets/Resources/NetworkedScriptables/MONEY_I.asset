@@ -46,7 +46,7 @@ MonoBehaviour:
   _cardName: Money I
   _description: Gain 3 coins
   _rarity: 0
-  _cardSprite: {fileID: 0}
+  _cardSprite: {fileID: 21300000, guid: e0429298680c1824c897890ab63f7018, type: 3}
   _upgradeCard: {fileID: 11400000, guid: abe6cd986c0c05649b4c3133068fd913, type: 2}
   _energyCost: 0
   _isSpecial: 0

@@ -43,7 +43,7 @@ MonoBehaviour:
   _cardName: Magic dust
   _description: Increase rarity of one card
   _rarity: 2
-  _cardSprite: {fileID: 0}
+  _cardSprite: {fileID: 21300000, guid: cdefc3e75a4994e47ba2a4be334d3cae, type: 3}
   _upgradeCard: {fileID: 11400000, guid: 1e3e0b2425783134aa81060af8240399, type: 2}
   _energyCost: 3
   _isSpecial: 0

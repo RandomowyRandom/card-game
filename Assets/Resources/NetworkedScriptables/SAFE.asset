@@ -64,7 +64,7 @@ MonoBehaviour:
   _cardName: Safe
   _description: Deals 20 damage, gives you and the opponent 15 coins
   _rarity: 2
-  _cardSprite: {fileID: 0}
+  _cardSprite: {fileID: 21300000, guid: 5b7013343e4af7848b2d1ccad7731bc5, type: 3}
   _upgradeCard: {fileID: 0}
   _energyCost: 4
   _isSpecial: 0

@@ -46,7 +46,7 @@ MonoBehaviour:
   _cardName: Heal I
   _description: Heals 3 damage
   _rarity: 0
-  _cardSprite: {fileID: 0}
+  _cardSprite: {fileID: 21300000, guid: f8b9d8dd64fcad04c8c7cb60bb2ccf60, type: 3}
   _upgradeCard: {fileID: 11400000, guid: 25cab2526fd33cb4ba8eb6a43396166d, type: 2}
   _energyCost: 1
   _isSpecial: 0

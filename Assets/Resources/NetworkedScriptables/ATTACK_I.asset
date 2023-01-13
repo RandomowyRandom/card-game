@@ -46,7 +46,7 @@ MonoBehaviour:
   _cardName: Attack I
   _description: Deals 3 damage
   _rarity: 0
-  _cardSprite: {fileID: 0}
+  _cardSprite: {fileID: 21300000, guid: ccfc7caef6328fe4f9dbb3ecab61383b, type: 3}
   _upgradeCard: {fileID: 11400000, guid: 98e11f44a0fd71f48843c20f885f58da, type: 2}
   _energyCost: 1
   _isSpecial: 0

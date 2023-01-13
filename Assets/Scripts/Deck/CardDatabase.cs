@@ -23,6 +23,11 @@ namespace Deck
             return cards;
         }
 
+        public Card GetCardByKey(string key)
+        {
+            return _cards.FirstOrDefault(card => card.name == key);
+        }
+        
         public Card GetRandomCard()
         {
             return _cards.GetRandomElement();
