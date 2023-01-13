@@ -55,7 +55,7 @@ MonoBehaviour:
   _cardName: Cacti II
   _description: Deals 20 damage to the enemy, but also deals 5 damage to you
   _rarity: 1
-  _cardSprite: {fileID: 0}
+  _cardSprite: {fileID: 21300000, guid: 1728b974f977c684a9d3bd667ff1d05f, type: 3}
   _upgradeCard: {fileID: 11400000, guid: 7394e6eb9f12ab2409e8940145ade93c, type: 2}
   _energyCost: 3
   _isSpecial: 0
