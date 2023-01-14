@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Cards;
 using JetBrains.Annotations;
 using Mirror;
@@ -8,11 +9,30 @@ using UnityEngine;
 
 namespace Player
 {
-    public class PlayerHand : NetworkBehaviour
+    public class PlayerHand : NetworkBehaviour, IPlayerHand
     {
         private List<Card> _cards = new();
         
         private readonly SyncList<string> _cardsKeys = new();
+        public List<Card> Cards => _cards;
+
+        public event Action OnHandChanged;
+        
+        private void OnDestroy()
+        {
+            if (!isOwned)
+                return;
+            
+            ServiceLocator.ServiceLocator.Instance.Deregister<IPlayerHand>();
+            _cardsKeys.Callback -= OnCardsKeysChanged;
+        }
+        
+        public override void OnStartAuthority()
+        {
+            ServiceLocator.ServiceLocator.Instance.Register<IPlayerHand>(this);
+            
+            _cardsKeys.Callback += OnCardsKeysChanged;
+        }
 
         public void AddCard(Card card)
         {
@@ -24,6 +44,11 @@ namespace Player
         {
             CmdRemoveCard(card.name);
             _cards.Remove(card);
+        }
+        
+        private void OnCardsKeysChanged(SyncList<string>.Operation op, int itemIndex, string oldItem, string newItem)
+        {
+            OnHandChanged?.Invoke();
         }
         
         #region Networking
