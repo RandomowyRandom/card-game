@@ -20,6 +20,7 @@ namespace Player
         [SerializeField]
         private float _maxRotation;
         
+        [Space]
         [SerializeField]
         private CardWorld _cardPrefab;
 
