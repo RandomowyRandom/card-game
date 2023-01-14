@@ -24,33 +24,35 @@ namespace Player
                 return;
             
             ServiceLocator.ServiceLocator.Instance.Deregister<IPlayerHand>();
-            _cardsKeys.Callback -= OnCardsKeysChanged;
         }
         
         public override void OnStartAuthority()
         {
             ServiceLocator.ServiceLocator.Instance.Register<IPlayerHand>(this);
-            
-            _cardsKeys.Callback += OnCardsKeysChanged;
         }
 
         public void AddCard(Card card)
         {
             CmdAddCard(card.name);
             _cards.Add(card);
+            
+            if(!isOwned)
+                return;
+            
+            OnHandChanged?.Invoke();
         }
         
         public void RemoveCard(Card card)
         {
             CmdRemoveCard(card.name);
             _cards.Remove(card);
-        }
-        
-        private void OnCardsKeysChanged(SyncList<string>.Operation op, int itemIndex, string oldItem, string newItem)
-        {
+            
+            if(!isOwned)
+                return;
+            
             OnHandChanged?.Invoke();
         }
-        
+
         #region Networking
         
         [Command]
