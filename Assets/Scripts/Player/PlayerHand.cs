@@ -53,6 +53,14 @@ namespace Player
             OnHandChanged?.Invoke();
         }
 
+        public void ClearHand()
+        {
+            _cards.Clear();
+            CmdClearHand();
+            
+            OnHandChanged?.Invoke();
+        }
+        
         #region Networking
         
         [Command]
@@ -66,25 +74,35 @@ namespace Player
         {
             _cardsKeys.Remove(cardKey);
         }
+        
+        [Command]
+        private void CmdClearHand()
+        {
+            _cardsKeys.Clear();
+        }
 
         #endregion
 
         #region QC
 
         [QFSW.QC.Command("add-random-card")] [UsedImplicitly]
-        private void AddRandomCard()
+        private void CommandAddRandomCard(int amount = 1)
         {
             var cardDeck = ServiceLocator.ServiceLocator.Instance.Get<ICardDeck>();
 
-            var card = cardDeck.DrawCard();
-            AddCard(card);
+            for (var i = 0; i < amount; i++)
+            {
+                var card = cardDeck.DrawCard();
+                AddCard(card);
             
-            Debug.Log($"Added {card.name} to the player's hand");
+                Debug.Log($"Added {card.name} to the player's hand");
+                
+            }
         }
 
         [QFSW.QC.Command("add-random-card-rarity")]
         [UsedImplicitly]
-        private void AddRandomCardRarity(CardRarity rarity)
+        private void CommandAddRandomCardRarity(CardRarity rarity)
         {
             var cardDeck = ServiceLocator.ServiceLocator.Instance.Get<ICardDeck>();
 
@@ -96,7 +114,7 @@ namespace Player
 
         
         [QFSW.QC.Command("log-all-cards")] [UsedImplicitly]
-        private void LogAllCards()
+        private void CommandLogAllCards()
         {
             Debug.Log("Cards in hand:");
             foreach (var card in _cardsKeys)
@@ -105,7 +123,11 @@ namespace Player
             }
         }
 
-        
+        [QFSW.QC.Command("clear-hand")] [UsedImplicitly]
+        private void CommandClearHand()
+        {
+            ClearHand();
+        }
         
         #endregion
     }
