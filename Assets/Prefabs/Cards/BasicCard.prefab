@@ -696,7 +696,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7158026871992034761}
   - component: {fileID: 2120598230297578761}
-  m_Layer: 0
+  - component: {fileID: 6506951446385568609}
+  m_Layer: 6
   m_Name: BasicCard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -735,7 +736,21 @@ MonoBehaviour:
   _cardDescription: {fileID: 6998991169771099614}
   _cardCost: {fileID: 294722462}
   _cardIcon: {fileID: 6998991168877897178}
+  _cardMesh: {fileID: 7398235648322253895}
   _cardDatabase: {fileID: 11400000, guid: 15b8fac71b698d54d81e811f6ed3ca34, type: 2}
+--- !u!65 &6506951446385568609
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8521881343644183029}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.0845437, y: 3.2388768, z: 0.68714017}
+  m_Center: {x: 0, y: -0.04631543, z: 0}
 --- !u!1001 &6998991168094360492
 PrefabInstance:
   m_ObjectHideFlags: 0
