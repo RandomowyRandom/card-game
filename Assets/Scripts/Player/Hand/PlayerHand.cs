@@ -5,6 +5,7 @@ using Cards;
 using Helpers.Extensions;
 using JetBrains.Annotations;
 using Mirror;
+using QFSW.QC;
 using Scriptables.Cards.Abstractions;
 using ServiceLocator.ServicesAbstraction;
 using UnityEngine;
@@ -27,11 +28,13 @@ namespace Player.Hand
                 return;
             
             ServiceLocator.ServiceLocator.Instance.Deregister<IPlayerHand>();
+            QuantumRegistry.DeregisterObject(this);
         }
         
         public override void OnStartAuthority()
         {
             ServiceLocator.ServiceLocator.Instance.Register<IPlayerHand>(this);
+            QuantumRegistry.RegisterObject(this);
         }
 
         public void AddCard(Card card)
@@ -71,19 +74,19 @@ namespace Player.Hand
         
         #region Networking
         
-        [Command]
+        [Mirror.Command]
         private void CmdAddCard(string cardKey)
         {
             _cardsKeys.Add(cardKey);
         }
 
-        [Command]
+        [Mirror.Command]
         private void CmdRemoveCard(string cardKey)
         {
             _cardsKeys.Remove(cardKey);
         }
         
-        [Command]
+        [Mirror.Command]
         private void CmdClearHand()
         {
             _cardsKeys.Clear();
@@ -93,7 +96,7 @@ namespace Player.Hand
 
         #region QC
 
-        [QFSW.QC.Command("add-random-card")] [UsedImplicitly]
+        [QFSW.QC.Command("add-random-card", MonoTargetType.Registry)] [UsedImplicitly]
         private void CommandAddRandomCard(int amount = 1)
         {
             var cardDeck = ServiceLocator.ServiceLocator.Instance.Get<ICardDeck>();
@@ -109,8 +112,7 @@ namespace Player.Hand
             }
         }
 
-        [QFSW.QC.Command("add-random-card-rarity")]
-        [UsedImplicitly]
+        [QFSW.QC.Command("add-random-card-rarity", MonoTargetType.Registry)] [UsedImplicitly]
         private void CommandAddRandomCardRarity(CardRarity rarity)
         {
             var cardDeck = ServiceLocator.ServiceLocator.Instance.Get<ICardDeck>();
@@ -123,23 +125,21 @@ namespace Player.Hand
             Debug.Log($"Added {card.name} to the player's hand");
         }
 
-        [QFSW.QC.Command("remove-random-card")]
-        [UsedImplicitly]
+        [QFSW.QC.Command("remove-random-card", MonoTargetType.Registry)] [UsedImplicitly]
         private void RemoveRandomCard()
         {
             var randomCard = _cards.GetRandomElement();
             RemoveCard(randomCard);
         }
         
-        [QFSW.QC.Command("remove-card")]
-        [UsedImplicitly]
+        [QFSW.QC.Command("remove-card", MonoTargetType.Registry)] [UsedImplicitly]
         private void RemoveCard(int index)
         {
             var card = _cards[index];
             RemoveCard(card);
         }
 
-        [QFSW.QC.Command("log-all-cards")] [UsedImplicitly]
+        [QFSW.QC.Command("log-all-cards", MonoTargetType.Registry)] [UsedImplicitly]
         private void CommandLogAllCards()
         {
             Debug.Log("Cards in hand:");
@@ -149,7 +149,7 @@ namespace Player.Hand
             }
         }
 
-        [QFSW.QC.Command("clear-hand")] [UsedImplicitly]
+        [QFSW.QC.Command("clear-hand", MonoTargetType.Registry)] [UsedImplicitly]
         private void CommandClearHand()
         {
             var playerHand = FindObjectsOfType<PlayerHand>().Where(h => h.isOwned).ToList();
