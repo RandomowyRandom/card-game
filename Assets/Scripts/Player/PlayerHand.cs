@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cards;
 using JetBrains.Annotations;
 using Mirror;
@@ -58,6 +59,9 @@ namespace Player
             _cards.Clear();
             CmdClearHand();
             
+            if(!isOwned)
+                return;
+
             OnHandChanged?.Invoke();
         }
         
@@ -89,11 +93,12 @@ namespace Player
         private void CommandAddRandomCard(int amount = 1)
         {
             var cardDeck = ServiceLocator.ServiceLocator.Instance.Get<ICardDeck>();
+            var playerHand = FindObjectsOfType<PlayerHand>().Where(h => h.isOwned).ToList();
 
             for (var i = 0; i < amount; i++)
             {
                 var card = cardDeck.DrawCard();
-                AddCard(card);
+                playerHand[0].AddCard(card);
             
                 Debug.Log($"Added {card.name} to the player's hand");
                 
@@ -106,8 +111,10 @@ namespace Player
         {
             var cardDeck = ServiceLocator.ServiceLocator.Instance.Get<ICardDeck>();
 
+            var playerHand = FindObjectsOfType<PlayerHand>().Where(h => h.isOwned).ToList();
+            
             var card = cardDeck.DrawCard(rarity);
-            AddCard(card);
+            playerHand[0].AddCard(card);
             
             Debug.Log($"Added {card.name} to the player's hand");
         }
@@ -126,7 +133,8 @@ namespace Player
         [QFSW.QC.Command("clear-hand")] [UsedImplicitly]
         private void CommandClearHand()
         {
-            ClearHand();
+            var playerHand = FindObjectsOfType<PlayerHand>().Where(h => h.isOwned).ToList();
+            playerHand[0].ClearHand();
         }
         
         #endregion

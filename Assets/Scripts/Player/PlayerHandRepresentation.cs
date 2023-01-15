@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cards;
+using Helpers.Extensions;
 using ServiceLocator.ServicesAbstraction;
 using UnityEngine;
 
@@ -57,7 +58,8 @@ namespace Player
         
         private void UpdateHand()
         {
-            InstantiateCards();          
+            InstantiateCards();
+            Debug.Log("Updated hand");
         }
 
         private void InstantiateCards()
@@ -94,7 +96,7 @@ namespace Player
             
             var minZ = GetMinZ(cardAmount);
             var maxZ = _rightCorner.z;
-
+            
             var x = Mathf.Lerp(minX, maxX, (float) cardIndex / (cardAmount - 1));
             var z = Mathf.Lerp(minZ, maxZ, (float) cardIndex / (cardAmount - 1));
             
@@ -103,9 +105,23 @@ namespace Player
 
             var position = new Vector3(x, y, z);
             
-            return position;
+            return position.IsAnyNaN() ? GetMiddleOfHand(cardAmount) : position;
         }
 
+        private Vector3 GetMiddleOfHand(int cardAmount)
+        {
+            var minX = GetMinX(cardAmount);
+            var maxX = GetMaxX(cardAmount);
+            
+            var minZ = GetMinZ(cardAmount);
+            var maxZ = _rightCorner.z;
+            
+            var x = Mathf.Lerp(minX, maxX, 0.5f);
+            var z = Mathf.Lerp(minZ, maxZ, 0.5f);
+
+            return new Vector3(x, _leftCorner.y, z);
+        }
+        
         private float GetMinX(int cardCount)
         {
             var minX = -(cardCount * _scaleFactor.x);
@@ -138,6 +154,9 @@ namespace Player
             var maxX = _rightCorner.x;
 
             var rotation = Mathf.Lerp(_minRotation, _maxRotation, (position.x - minX) / (maxX - minX));
+
+            if(float.IsNaN(rotation))
+                rotation = 0;
             
             return Quaternion.Euler(0, 0, -rotation);
         }
