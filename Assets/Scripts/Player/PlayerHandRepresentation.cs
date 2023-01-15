@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Cards;
+using DG.Tweening;
 using Helpers.Extensions;
+using Scriptables.Cards.Abstractions;
 using ServiceLocator.ServicesAbstraction;
 using UnityEngine;
 
@@ -51,39 +53,21 @@ namespace Player
 
         private void OnDestroy()
         {
-            PlayerHand.OnHandChanged -= UpdateHand;
-            
+            PlayerHand.OnCardAdded -= SpawnCard;
+            PlayerHand.OnCardRemoved -= DespawnCard;
+            PlayerHand.OnHandCleared += ClearCards;
+
             ServiceLocator.ServiceLocator.Instance.OnServiceRegistered -= SubscribeToEvents;
         }
         
-        private void UpdateHand()
+        private void ClearCards()
         {
-            InstantiateCards();
-            Debug.Log("Updated hand");
-        }
-
-        private void InstantiateCards()
-        {
-            foreach (var cardWorld in _instantiatedCards)
+            foreach (var card in _instantiatedCards)
             {
-                Destroy(cardWorld.gameObject);
+                Destroy(card.gameObject);
             }
             
             _instantiatedCards.Clear();
-            
-            var cards = PlayerHand.Cards;
-            var cardsCount = cards.Count;
-
-            for (var i = 0; i < cardsCount; i++)
-            {
-                var position = GetCardPosition(cardsCount, i);
-                var rotation = GetCardRotationBasedOnPosition(position);
-                
-                var cardWorld = Instantiate(_cardPrefab, position, rotation, transform);
-                cardWorld.SetCard(cards[i]);
-                
-                _instantiatedCards.Add(cardWorld);
-            }
         }
 
         private Vector3 GetCardPosition(int cardAmount, int cardIndex)
@@ -166,7 +150,44 @@ namespace Player
             if (type != typeof(IPlayerHand)) 
                 return;
             
-            PlayerHand.OnHandChanged += UpdateHand;
+            PlayerHand.OnCardAdded += SpawnCard;
+            PlayerHand.OnHandCleared += ClearCards;
+            PlayerHand.OnCardRemoved += DespawnCard;
+        }
+
+        private void DespawnCard(Card card, int cardIndex)
+        {
+            var cardWorld = _instantiatedCards[cardIndex];
+            _instantiatedCards.Remove(cardWorld);
+            Destroy(cardWorld.gameObject);
+            
+            UpdateCardPositionAndRotation(PlayerHand.Cards.Count);
+        }
+
+        private void SpawnCard(Card card)
+        {
+            var cardAmount = PlayerHand.Cards.Count;
+            var spawnPosition = GetMiddleOfHand(cardAmount);
+            spawnPosition.z -= 1;
+            
+            var cardInstance = Instantiate(_cardPrefab, spawnPosition, Quaternion.identity, transform);
+            _instantiatedCards.Add(cardInstance);
+
+            UpdateCardPositionAndRotation(cardAmount);
+            
+            cardInstance.SetCard(card);
+        }
+
+        private void UpdateCardPositionAndRotation(int cardAmount)
+        {
+            foreach (var cardWorld in _instantiatedCards)
+            {
+                var position = GetCardPosition(cardAmount, _instantiatedCards.IndexOf(cardWorld));
+                var rotation = GetCardRotationBasedOnPosition(position);
+
+                cardWorld.transform.DOLocalMove(position, 0.3f);
+                cardWorld.transform.DOLocalRotate(rotation.eulerAngles, 0.3f);
+            }
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Cards;
+using Helpers.Extensions;
 using JetBrains.Annotations;
 using Mirror;
 using Scriptables.Cards.Abstractions;
@@ -15,9 +16,10 @@ namespace Player
         private List<Card> _cards = new();
         
         private readonly SyncList<string> _cardsKeys = new();
+        public event Action<Card> OnCardAdded;
+        public event Action<Card, int> OnCardRemoved;
+        public event Action OnHandCleared;
         public List<Card> Cards => _cards;
-
-        public event Action OnHandChanged;
         
         private void OnDestroy()
         {
@@ -40,18 +42,20 @@ namespace Player
             if(!isOwned)
                 return;
             
-            OnHandChanged?.Invoke();
+            OnCardAdded?.Invoke(card);
         }
         
         public void RemoveCard(Card card)
         {
+            var cardIndex = _cards.IndexOf(card);
+            
             CmdRemoveCard(card.name);
             _cards.Remove(card);
             
             if(!isOwned)
                 return;
             
-            OnHandChanged?.Invoke();
+            OnCardRemoved?.Invoke(card, cardIndex);
         }
 
         public void ClearHand()
@@ -62,7 +66,7 @@ namespace Player
             if(!isOwned)
                 return;
 
-            OnHandChanged?.Invoke();
+            OnHandCleared?.Invoke();
         }
         
         #region Networking
@@ -119,7 +123,22 @@ namespace Player
             Debug.Log($"Added {card.name} to the player's hand");
         }
 
+        [QFSW.QC.Command("remove-random-card")]
+        [UsedImplicitly]
+        private void RemoveRandomCard()
+        {
+            var randomCard = _cards.GetRandomElement();
+            RemoveCard(randomCard);
+        }
         
+        [QFSW.QC.Command("remove-card")]
+        [UsedImplicitly]
+        private void RemoveCard(int index)
+        {
+            var card = _cards[index];
+            RemoveCard(card);
+        }
+
         [QFSW.QC.Command("log-all-cards")] [UsedImplicitly]
         private void CommandLogAllCards()
         {

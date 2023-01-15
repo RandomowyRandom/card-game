@@ -6,7 +6,11 @@ namespace ServiceLocator.ServicesAbstraction
 {
     public interface IPlayerHand: IService
     {
-        public event Action OnHandChanged;
+        public event Action<Card> OnCardAdded;
+        
+        public event Action<Card, int> OnCardRemoved;
+        
+        public event Action OnHandCleared;
         
         public List<Card> Cards { get; }
         
