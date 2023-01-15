@@ -5,11 +5,13 @@ using DG.Tweening;
 using Helpers.Extensions;
 using Scriptables.Cards.Abstractions;
 using ServiceLocator.ServicesAbstraction;
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UnityEngine;
 
-namespace Player
+namespace Player.Hand
 {
-    public class PlayerHandRepresentation: MonoBehaviour
+    public class PlayerHandRepresentation: SerializedMonoBehaviour
     {
         [SerializeField]
         private Vector3 _leftCorner;
@@ -33,10 +35,18 @@ namespace Player
         [SerializeField]
         private AnimationCurve _cardYPositionCurve;
         
+        [SerializeField]
+        private Vector3 _selectedMove;
+        
+        [Space]
+        
+        [OdinSerialize]
+        private ICardSelectionHandler _cardSelectionHandler;
+
         private IPlayerHand _playerHand;
         
         private List<CardWorld> _instantiatedCards = new();
-        
+
         private IPlayerHand PlayerHand
         {
             get
@@ -45,10 +55,13 @@ namespace Player
                 return _playerHand;
             }
         }
-        
+
         private void Awake()
         {
             ServiceLocator.ServiceLocator.Instance.OnServiceRegistered += SubscribeToEvents;
+            
+            _cardSelectionHandler.OnSelected += SelectCard;
+            _cardSelectionHandler.OnDeselected += DeselectCard;
         }
 
         private void OnDestroy()
@@ -56,6 +69,9 @@ namespace Player
             PlayerHand.OnCardAdded -= SpawnCard;
             PlayerHand.OnCardRemoved -= DespawnCard;
             PlayerHand.OnHandCleared += ClearCards;
+            
+            _cardSelectionHandler.OnSelected -= SelectCard;
+            _cardSelectionHandler.OnDeselected -= DeselectCard;
 
             ServiceLocator.ServiceLocator.Instance.OnServiceRegistered -= SubscribeToEvents;
         }
@@ -178,10 +194,24 @@ namespace Player
             cardInstance.SetCard(card);
         }
 
-        private void UpdateCardPositionAndRotation(int cardAmount)
+        private void DeselectCard(CardWorld cardWorld)
+        {
+            cardWorld.CardMesh.DOLocalMove(Vector3.zero, 0.2f);
+        }
+
+        private void SelectCard(CardWorld cardWorld)
+        {
+            cardWorld.CardMesh.DOLocalMove(cardWorld.CardMesh.localPosition + _selectedMove, 0.15f)
+                .SetEase(Ease.OutBack);
+        }
+        
+        private void UpdateCardPositionAndRotation(int cardAmount, CardWorld exception = null)
         {
             foreach (var cardWorld in _instantiatedCards)
             {
+                if(exception != null && cardWorld == exception)
+                    continue;
+                
                 var position = GetCardPosition(cardAmount, _instantiatedCards.IndexOf(cardWorld));
                 var rotation = GetCardRotationBasedOnPosition(position);
 

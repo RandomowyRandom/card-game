@@ -20,10 +20,15 @@ namespace Cards
         [SerializeField]
         private SpriteRenderer _cardIcon;
         
+        [SerializeField]
+        private Transform _cardMesh;
+        
         [Space]
         
         [SerializeField]
         private CardDatabase _cardDatabase;
+        
+        public Transform CardMesh => _cardMesh;
         
         public void SetCard(Card card)
         {

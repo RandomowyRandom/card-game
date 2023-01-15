@@ -9,7 +9,7 @@ using Scriptables.Cards.Abstractions;
 using ServiceLocator.ServicesAbstraction;
 using UnityEngine;
 
-namespace Player
+namespace Player.Hand
 {
     public class PlayerHand : NetworkBehaviour, IPlayerHand
     {

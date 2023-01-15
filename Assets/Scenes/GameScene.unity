@@ -1113,6 +1113,7 @@ GameObject:
   m_Component:
   - component: {fileID: 993973121}
   - component: {fileID: 993973122}
+  - component: {fileID: 993973123}
   m_Layer: 0
   m_Name: PlayerHandRepresentation
   m_TagString: Untagged
@@ -1147,8 +1148,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a66c18b4ec3449c7ab125f68e0446fca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _leftCorner: {x: -5, y: 8.2, z: 8.2}
-  _rightCorner: {x: 5, y: 8.35, z: 8}
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects:
+    - {fileID: 993973123}
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _cardSelectionHandler
+      Entry: 10
+      Data: 0
+  _leftCorner: {x: -6, y: 8.2, z: 8.2}
+  _rightCorner: {x: 6, y: 8.35, z: 8}
   _minRotation: -15
   _maxRotation: 15
   _scaleFactor: {x: 0.5, y: 0.02, z: 0.05}
@@ -1186,6 +1200,22 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  _selectedMove: {x: -0.4, y: 0.5, z: -0.3}
+--- !u!114 &993973123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 993973120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dbf1781ee8643b692fa57bf0501a44c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _layerMask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &1022021817
 GameObject:
   m_ObjectHideFlags: 0
