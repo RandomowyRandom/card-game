@@ -30,6 +30,14 @@ namespace Player
             ServiceLocator.ServiceLocator.Instance.Deregister<IPlayerHealth>();
         }
         
+        public override void OnStartClient()
+        {
+            if(!isOwned)
+                return;
+            
+            CmdSetMoney(_playerBaseWalletStats.StartingMoney);
+        }
+        
         public override void OnStartAuthority()
         {
             ServiceLocator.ServiceLocator.Instance.Register<IPlayerWallet>(this);
@@ -53,11 +61,6 @@ namespace Player
         public void SetMoney(int amount)
         {
             CmdSetMoney(amount);
-        }
-        
-        public override void OnStartClient()
-        {
-            CmdSetMoney(_playerBaseWalletStats.StartingMoney);
         }
 
         private void OnMoneyChangedHook(int oldMoney, int newMoney)

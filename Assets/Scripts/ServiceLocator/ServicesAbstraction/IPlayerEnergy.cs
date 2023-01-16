@@ -7,6 +7,7 @@ namespace ServiceLocator.ServicesAbstraction
         public event Action<int> OnEnergyChanged;
         
         public int MaxEnergy { get; }
+        public int CurrentEnergy { get; }
         
         public void AddEnergy(int amount);
         public void RemoveEnergy(int amount);

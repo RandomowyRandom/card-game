@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using Mirror;
+using Player;
+using UnityEngine;
 
 namespace Common.Networking.PlayerManagement
 {
@@ -22,22 +25,18 @@ namespace Common.Networking.PlayerManagement
             ServiceLocator.ServiceLocator.Instance.Register<IPlayersManager>(this);
         }
         
-        public void RegisterPlayer(NetworkIdentity player, int connectionId)
+        public void RefreshPlayers()
         {
-            if (_players.ContainsKey(connectionId))
-                return;
+            CmdClearPlayers();
+            var players = FindObjectsOfType<PlayerHealth>();
             
-            _players.Add(connectionId, player);
+            foreach (var player in players)
+            {
+                var networkIdentity = player.GetComponent<NetworkIdentity>();
+                CmdAddPlayer(networkIdentity, networkIdentity.connectionToClient.connectionId);
+            }
         }
-        
-        public void DeregisterPlayer(int connectionId)
-        {
-            if (!_players.ContainsKey(connectionId))
-                return;
-            
-            _players.Remove(connectionId);
-        }
-        
+
         public NetworkIdentity GetPlayer(int connectionId)
         {
             return !_players.ContainsKey(connectionId) ? null : _players[connectionId];
@@ -52,5 +51,40 @@ namespace Common.Networking.PlayerManagement
         {
             return includeLocalPlayer ? _players.Values.ToList() : _players.Values.ToList().Where(p => !p.isOwned).ToList();
         }
+
+        #region Networking
+
+        [Command(requiresAuthority = false)]
+        private void CmdAddPlayer(NetworkIdentity player, int connectionId)
+        {
+            _players.Add(connectionId, player);
+        }
+        
+        [Command(requiresAuthority = false)]
+        private void CmdRemovePlayer(int connectionId)
+        {
+            _players.Remove(connectionId);
+        }
+        
+        [Command(requiresAuthority = false)]
+        private void CmdClearPlayers()
+        {
+            _players.Clear();
+        }
+
+        #endregion
+
+        #region QC
+
+        [QFSW.QC.Command("log-all-players")] [UsedImplicitly]
+        private void LogPlayers()
+        {
+            foreach (var player in _players)
+            {
+                Debug.Log($"Player: {player.Value.name} - ConnectionId: {player.Key}");
+            }
+        }
+
+        #endregion
     }
 }

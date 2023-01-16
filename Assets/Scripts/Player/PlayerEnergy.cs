@@ -32,13 +32,9 @@ namespace Player
         public override void OnStartAuthority()
         {
             ServiceLocator.ServiceLocator.Instance.Register<IPlayerEnergy>(this);
-        }
-
-        public override void OnStartClient()
-        {
             CmdSetEnergy(_playerBaseEnergyStats.StartingEnergy);
         }
-        
+
         public void AddEnergy(int amount)
         {
             CmdSetEnergy(_currentEnergy + amount);

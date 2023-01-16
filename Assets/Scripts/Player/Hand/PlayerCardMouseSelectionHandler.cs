@@ -17,10 +17,11 @@ namespace Player.Hand
         private Camera _camera;
 
         public CardWorld SelectedCard => _selectedCard;
+        
+        
         private void Update()
         {
             var ray = _camera.ScreenPointToRay(Input.mousePosition);
-            Debug.DrawRay(ray.origin, ray.direction * 100, Color.red);
             
             if (!Physics.Raycast(ray, out var hitInfo, float.PositiveInfinity, _layerMask))
             {
@@ -48,6 +49,16 @@ namespace Player.Hand
         private void Awake()
         {
             _camera = Camera.main;
+            
+            if(ServiceLocator.ServiceLocator.Instance.IsRegistered<ICardSelectionHandler>())
+                return;
+            
+            ServiceLocator.ServiceLocator.Instance.Register<ICardSelectionHandler>(this);
+        }
+        
+        private void OnDestroy()
+        {
+            ServiceLocator.ServiceLocator.Instance.Deregister<ICardSelectionHandler>();
         }
     }
 }

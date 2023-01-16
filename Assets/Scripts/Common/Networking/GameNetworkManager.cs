@@ -1,4 +1,5 @@
-﻿using Common.Networking.PlayerManagement;
+﻿using System;
+using Common.Networking.PlayerManagement;
 using Mirror;
 using UnityEngine;
 
@@ -27,8 +28,21 @@ namespace Common.Networking
 
             player.name = $"{playerPrefab.name} [connId={conn.connectionId}]";
             NetworkServer.AddPlayerForConnection(conn, player);
-            
-            _playersManager.RegisterPlayer(player.GetComponent<NetworkIdentity>(), conn.connectionId);
+
+            if (_playersManager == null)
+                ServiceLocator.ServiceLocator.Instance.OnServiceRegistered += RegisterPlayer;
+            else
+                _playersManager.RefreshPlayers();
+
+            void RegisterPlayer(Type type)
+            {
+                if (type != typeof(IPlayersManager)) 
+                    return;
+
+                _playersManager = ServiceLocator.ServiceLocator.Instance.Get<IPlayersManager>();
+                _playersManager.RefreshPlayers();
+                ServiceLocator.ServiceLocator.Instance.OnServiceRegistered -= RegisterPlayer;
+            }
         }
     }
 }
