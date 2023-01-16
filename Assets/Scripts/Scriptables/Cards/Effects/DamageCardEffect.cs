@@ -1,18 +1,22 @@
 ﻿using System;
 using Scriptables.Cards.Abstractions;
-using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 using UnityEngine;
 
 namespace Scriptables.Cards.Effects
 {
     [Serializable]
-    public class DamageSelfCardEffect : ICardEffect
+    public class DamageCardEffect : ICardEffect
     {
         [SerializeField]
         private int _damage;
+
+        [field: OdinSerialize]
+        public ITargetProvider TargetProvider { get; }
+
         public void OnUse()
         {
-            Debug.Log($"Damaging self for {_damage}!");
+            Debug.Log($"Deal {_damage} damage!");
         }
     }
 }
