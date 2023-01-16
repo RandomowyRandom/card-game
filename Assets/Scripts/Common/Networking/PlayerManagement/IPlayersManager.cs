@@ -6,8 +6,7 @@ namespace Common.Networking.PlayerManagement
 {
     public interface IPlayersManager: IService
     {
-        public void RegisterPlayer(NetworkIdentity player, int connectionId);
-        public void DeregisterPlayer(int connectionId);
+        public void RefreshPlayers();
         public NetworkIdentity GetPlayer(int connectionId);
         public NetworkIdentity GetLocalPlayer();
         public List<NetworkIdentity> GetAllPlayers(bool includeLocalPlayer = true);

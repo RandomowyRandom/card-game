@@ -62,7 +62,7 @@ MonoBehaviour:
   playerSpawnMethod: 0
   spawnPrefabs: []
   timeInterpolationGui: 0
-  _playersManager: {fileID: 0}
+  _playersParent: {fileID: 0}
 --- !u!114 &2183706832364091727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79,7 +79,7 @@ MonoBehaviour:
   DualMode: 1
   NoDelay: 1
   Interval: 10
-  Timeout: 10000
+  Timeout: 3600000
   FastResend: 2
   CongestionWindow: 0
   SendWindowSize: 4096

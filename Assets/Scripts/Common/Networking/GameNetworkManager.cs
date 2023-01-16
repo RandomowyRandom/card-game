@@ -1,4 +1,5 @@
-﻿using Common.Networking.PlayerManagement;
+﻿using System;
+using Common.Networking.PlayerManagement;
 using Mirror;
 using UnityEngine;
 
@@ -14,7 +15,6 @@ namespace Common.Networking
         public override void Start()
         {
             base.Start();
-
             _playersManager = ServiceLocator.ServiceLocator.Instance.Get<IPlayersManager>();
         }
 
@@ -27,8 +27,9 @@ namespace Common.Networking
 
             player.name = $"{playerPrefab.name} [connId={conn.connectionId}]";
             NetworkServer.AddPlayerForConnection(conn, player);
-            
-            _playersManager.RegisterPlayer(player.GetComponent<NetworkIdentity>(), conn.connectionId);
+
+            _playersManager ??= ServiceLocator.ServiceLocator.Instance.Get<IPlayersManager>();
+            _playersManager.RefreshPlayers();
         }
     }
 }

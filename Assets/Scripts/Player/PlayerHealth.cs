@@ -40,6 +40,14 @@ namespace Player
             ServiceLocator.ServiceLocator.Instance.Register<IPlayerHealth>(this);
         }
         
+        public override void OnStartClient()
+        {
+            if(!isOwned)
+                return;
+            
+            InitializeStats();
+        }
+        
         public void Heal(int health)
         {
             CmdSetHealth(_currentHealth + health);
@@ -75,11 +83,6 @@ namespace Player
         public void SetArmor(int armor)
         {
             CmdSetArmor(armor);
-        }
-        
-        public override void OnStartClient()
-        {
-            InitializeStats();
         }
 
         private void InitializeStats()
