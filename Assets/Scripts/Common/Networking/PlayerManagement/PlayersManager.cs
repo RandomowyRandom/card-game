@@ -42,10 +42,15 @@ namespace Common.Networking.PlayerManagement
         {
             return !_players.ContainsKey(connectionId) ? null : _players[connectionId];
         }
-        
-        public List<NetworkIdentity> GetAllPlayers()
+
+        public NetworkIdentity GetLocalPlayer()
         {
-            return _players.Values.ToList();
+            return _players.FirstOrDefault(x => x.Value.isOwned).Value;
+        }
+
+        public List<NetworkIdentity> GetAllPlayers(bool includeLocalPlayer = true)
+        {
+            return includeLocalPlayer ? _players.Values.ToList() : _players.Values.ToList().Where(p => !p.isOwned).ToList();
         }
     }
 }

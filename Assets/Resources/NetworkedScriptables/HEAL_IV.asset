@@ -30,10 +30,16 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 7
-      Data: 1|Scriptables.Cards.Effects.HealSelfCardEffect, Assembly-CSharp
+      Data: 1|Scriptables.Cards.Effects.HealCardEffect, Assembly-CSharp
     - Name: _healAmount
       Entry: 3
       Data: 15
+    - Name: <TargetProvider>k__BackingField
+      Entry: 7
+      Data: 2|Scriptables.Cards.Targets.SelfTarget, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 8
       Data: 

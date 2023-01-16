@@ -9,6 +9,7 @@ namespace Common.Networking.PlayerManagement
         public void RegisterPlayer(NetworkIdentity player, int connectionId);
         public void DeregisterPlayer(int connectionId);
         public NetworkIdentity GetPlayer(int connectionId);
-        public List<NetworkIdentity> GetAllPlayers();
+        public NetworkIdentity GetLocalPlayer();
+        public List<NetworkIdentity> GetAllPlayers(bool includeLocalPlayer = true);
     }
 }

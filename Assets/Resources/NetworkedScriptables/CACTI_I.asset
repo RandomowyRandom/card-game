@@ -30,19 +30,31 @@ MonoBehaviour:
       Data: 2
     - Name: 
       Entry: 7
-      Data: 1|Scriptables.Cards.Effects.DamageEnemyCardEffect, Assembly-CSharp
+      Data: 1|Scriptables.Cards.Effects.DamageCardEffect, Assembly-CSharp
     - Name: _damage
       Entry: 3
       Data: 10
+    - Name: <TargetProvider>k__BackingField
+      Entry: 7
+      Data: 2|Scriptables.Cards.Targets.EnemyTarget, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 8
       Data: 
     - Name: 
       Entry: 7
-      Data: 2|Scriptables.Cards.Effects.DamageSelfCardEffect, Assembly-CSharp
+      Data: 3|Scriptables.Cards.Effects.DamageCardEffect, Assembly-CSharp
     - Name: _damage
       Entry: 3
       Data: 5
+    - Name: <TargetProvider>k__BackingField
+      Entry: 7
+      Data: 4|Scriptables.Cards.Targets.SelfTarget, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 8
       Data: 

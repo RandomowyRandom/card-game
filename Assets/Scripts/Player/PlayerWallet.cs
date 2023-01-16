@@ -67,7 +67,7 @@ namespace Player
 
         #region Networking
 
-        [Mirror.Command]
+        [Mirror.Command(requiresAuthority = false)]
         private void CmdSetMoney(int money)
         {
             _currentMoney = money;

@@ -30,13 +30,16 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 7
-      Data: 1|Scriptables.Cards.Effects.DamageAllCardEffect, Assembly-CSharp
+      Data: 1|Scriptables.Cards.Effects.DamageCardEffect, Assembly-CSharp
     - Name: _damage
       Entry: 3
       Data: 15
-    - Name: _includeCaster
-      Entry: 5
-      Data: false
+    - Name: <TargetProvider>k__BackingField
+      Entry: 7
+      Data: 2|Scriptables.Cards.Targets.AllTarget, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 8
       Data: 

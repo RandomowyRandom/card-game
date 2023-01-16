@@ -1,4 +1,5 @@
 ﻿using System;
+using Common.Networking.PlayerManagement;
 using Mirror;
 using Scriptables.Cards.Abstractions;
 
@@ -7,9 +8,13 @@ namespace Scriptables.Cards.Targets
     [Serializable]
     public class SelfTarget: ITargetProvider
     {
+        private IPlayersManager _playersManager;
+
         public NetworkIdentity[] GetTargets()
         {
-            throw new System.NotImplementedException();
+            _playersManager ??= ServiceLocator.ServiceLocator.Instance.Get<IPlayersManager>();
+
+            return new []{_playersManager.GetLocalPlayer()};
         }
     }
 }

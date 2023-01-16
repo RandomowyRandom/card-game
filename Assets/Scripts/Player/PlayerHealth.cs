@@ -100,7 +100,7 @@ namespace Player
             OnArmorChanged?.Invoke(newArmor);
         }
         
-        [Mirror.Command]
+        [Mirror.Command(requiresAuthority = false)]
         private void CmdSetHealth(int health)
         {
             if(health == 0)
@@ -112,7 +112,7 @@ namespace Player
                 _currentHealth = _playerBaseHealthStats.MaxHealth;
         }
         
-        [Mirror.Command]
+        [Mirror.Command(requiresAuthority = false)]
         private void CmdSetArmor(int armor)
         {
             if(armor < 0)
