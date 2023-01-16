@@ -101,8 +101,6 @@ namespace Player.Hand
 
         public bool UpgradeRandomCard()
         {
-            Card randomCard;
-
             var upgradeableCards = _cards.Where(card => card.UpgradeCard != null).ToList();
             
             if (upgradeableCards.Count == 0)
