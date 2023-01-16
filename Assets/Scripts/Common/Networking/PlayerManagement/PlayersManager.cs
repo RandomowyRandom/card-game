@@ -34,6 +34,7 @@ namespace Common.Networking.PlayerManagement
             {
                 var networkIdentity = player.GetComponent<NetworkIdentity>();
                 CmdAddPlayer(networkIdentity, networkIdentity.connectionToClient.connectionId);
+                Debug.Log($"Player {networkIdentity.connectionToClient.connectionId} added to the dict");
             }
         }
 

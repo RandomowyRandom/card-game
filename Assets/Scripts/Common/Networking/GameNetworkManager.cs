@@ -15,7 +15,6 @@ namespace Common.Networking
         public override void Start()
         {
             base.Start();
-
             _playersManager = ServiceLocator.ServiceLocator.Instance.Get<IPlayersManager>();
         }
 
@@ -29,20 +28,8 @@ namespace Common.Networking
             player.name = $"{playerPrefab.name} [connId={conn.connectionId}]";
             NetworkServer.AddPlayerForConnection(conn, player);
 
-            if (_playersManager == null)
-                ServiceLocator.ServiceLocator.Instance.OnServiceRegistered += RegisterPlayer;
-            else
-                _playersManager.RefreshPlayers();
-
-            void RegisterPlayer(Type type)
-            {
-                if (type != typeof(IPlayersManager)) 
-                    return;
-
-                _playersManager = ServiceLocator.ServiceLocator.Instance.Get<IPlayersManager>();
-                _playersManager.RefreshPlayers();
-                ServiceLocator.ServiceLocator.Instance.OnServiceRegistered -= RegisterPlayer;
-            }
+            _playersManager ??= ServiceLocator.ServiceLocator.Instance.Get<IPlayersManager>();
+            _playersManager.RefreshPlayers();
         }
     }
 }
