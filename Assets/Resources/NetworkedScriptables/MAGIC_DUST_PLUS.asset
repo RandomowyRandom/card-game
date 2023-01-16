@@ -30,7 +30,13 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 7
-      Data: 1|Scriptables.Cards.Effects.UpgradeDeckSelfCardEffect, Assembly-CSharp
+      Data: 1|Scriptables.Cards.Effects.DeckUpgradeCardEffect, Assembly-CSharp
+    - Name: <TargetProvider>k__BackingField
+      Entry: 7
+      Data: 2|Scriptables.Cards.Targets.SelfTarget, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 8
       Data: 

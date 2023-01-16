@@ -43,6 +43,12 @@ namespace Scriptables.Cards.Abstractions
         [Button]
         private void TestCard()
         {
+            if (!Application.isEditor)
+            {
+                Debug.LogWarning("TestCard button needs the game to be running!");
+                return;
+            }
+            
             Use();
         }
 

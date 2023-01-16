@@ -60,6 +60,55 @@ namespace Player.Hand
             
             OnCardRemoved?.Invoke(card, cardIndex);
         }
+        
+        public void UpgradeCard(Card card)
+        {
+            var oldCardIndex = _cards.IndexOf(card);
+            var newCard = card.UpgradeCard;
+
+            _cards.Remove(card);
+            CmdRemoveCard(card.name);
+            _cards.Add(newCard);
+            CmdAddCard(newCard.name);
+            
+            if(!isOwned)
+                return;
+            
+            OnCardRemoved?.Invoke(card, oldCardIndex);
+            OnCardAdded?.Invoke(newCard);
+        }
+
+        public bool UpgradeDeck()
+        {
+            var upgradeableCards = _cards.Where(card => card.UpgradeCard != null).ToList();
+            
+            if(upgradeableCards.Count == 0)
+                return false;
+            
+            var nonUpgradeableCards = _cards.Where(card => card.UpgradeCard == null).ToList();
+            
+            var upgradedCards = upgradeableCards.Select(card => card.UpgradeCard).ToList();
+            var newCards = upgradedCards.Concat(nonUpgradeableCards).ToList();
+            
+            ClearHand();
+            foreach (var newCard in newCards)
+            {
+                AddCard(newCard);
+            }
+            
+            return true;
+        }
+
+        public bool UpgradeRandomCard()
+        {
+            var upgradeableCards = _cards.Where(card => card.UpgradeCard != null).ToList();
+            
+            if (upgradeableCards.Count == 0)
+                return false;
+            
+            UpgradeCard(upgradeableCards.GetRandomElement());
+            return true;
+        }
 
         public void ClearHand()
         {

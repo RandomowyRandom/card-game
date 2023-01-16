@@ -30,10 +30,16 @@ MonoBehaviour:
       Data: 1
     - Name: 
       Entry: 7
-      Data: 1|Scriptables.Cards.Effects.DamageEnemyCardEffect, Assembly-CSharp
+      Data: 1|Scriptables.Cards.Effects.DamageCardEffect, Assembly-CSharp
     - Name: _damage
       Entry: 3
       Data: 3
+    - Name: <TargetProvider>k__BackingField
+      Entry: 7
+      Data: 2|Scriptables.Cards.Targets.EnemyTarget, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 8
       Data: 
