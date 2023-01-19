@@ -1,15 +1,10 @@
-﻿using System;
-using Common.Networking.PlayerManagement;
+﻿using Common.Networking.PlayerManagement;
 using Mirror;
-using UnityEngine;
 
 namespace Common.Networking
 {
     public class GameNetworkManager: NetworkManager
     {
-        [SerializeField]
-        private Transform _playersParent;
-
         private IPlayersManager _playersManager;
 
         public override void Start()
@@ -22,8 +17,8 @@ namespace Common.Networking
         {
             var startPos = GetStartPosition();
             var player = startPos != null
-                ? Instantiate(playerPrefab, startPos.position, startPos.rotation, _playersParent)
-                : Instantiate(playerPrefab, _playersParent);
+                ? Instantiate(playerPrefab, startPos.position, startPos.rotation)
+                : Instantiate(playerPrefab);
 
             player.name = $"{playerPrefab.name} [connId={conn.connectionId}]";
             NetworkServer.AddPlayerForConnection(conn, player);

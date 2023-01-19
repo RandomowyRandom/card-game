@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Common.Networking.PlayerManagement;
 using JetBrains.Annotations;
 using Mirror;
 using QFSW.QC;
@@ -23,7 +24,6 @@ namespace Player
         
         public int CurrentHealth => _currentHealth;
         public int CurrentArmor => _currentArmor;
-
         public int MaxHealth => _playerBaseHealthStats.MaxHealth;
         public event Action<int> OnHealthChanged;
         public event Action<int> OnArmorChanged;

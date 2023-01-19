@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using Mirror;
@@ -9,22 +10,28 @@ namespace Common.Networking.PlayerManagement
 {
     public class PlayersManager: NetworkBehaviour, IPlayersManager
     {
+        public event Action OnPlayersChanged;
+
         private readonly SyncDictionary<int, NetworkIdentity> _players = new();
 
         private void OnDestroy()
         {
+            _players.Callback -= PlayersChanged;
+
             ServiceLocator.ServiceLocator.Instance.Deregister<IPlayersManager>();
             _players.Clear();
         }
         
         private void Awake()
         {
+            _players.Callback += PlayersChanged;
+            
             if(ServiceLocator.ServiceLocator.Instance.IsRegistered<IPlayersManager>())
                 return;
             
             ServiceLocator.ServiceLocator.Instance.Register<IPlayersManager>(this);
         }
-        
+
         public void RefreshPlayers()
         {
             CmdClearPlayers();
@@ -36,6 +43,11 @@ namespace Common.Networking.PlayerManagement
                 CmdAddPlayer(networkIdentity, networkIdentity.connectionToClient.connectionId);
                 Debug.Log($"Player {networkIdentity.connectionToClient.connectionId} added to the dict");
             }
+        }
+        
+        public void DeregisterPlayer(NetworkIdentity player)
+        {
+            CmdRemovePlayer(player.connectionToClient.connectionId);
         }
 
         public NetworkIdentity GetPlayer(int connectionId)
@@ -51,6 +63,11 @@ namespace Common.Networking.PlayerManagement
         public List<NetworkIdentity> GetAllPlayers(bool includeLocalPlayer = true)
         {
             return includeLocalPlayer ? _players.Values.ToList() : _players.Values.ToList().Where(p => !p.isOwned).ToList();
+        }
+        
+        private void PlayersChanged(SyncDictionary<int, NetworkIdentity>.Operation op, int key, NetworkIdentity value)
+        {
+            OnPlayersChanged?.Invoke();
         }
 
         #region Networking
