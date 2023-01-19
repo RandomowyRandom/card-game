@@ -593,6 +593,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _parentNetworkIdentity: {fileID: 5040281174155875907}
   _connectionIdText: {fileID: 2503442008919694498}
+  _healthText: {fileID: 5840559938087389179}
+  _armorText: {fileID: 5479578118449552595}
 --- !u!1 &7905136665162004465
 GameObject:
   m_ObjectHideFlags: 0

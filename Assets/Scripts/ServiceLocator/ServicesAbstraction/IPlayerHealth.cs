@@ -11,6 +11,8 @@ namespace ServiceLocator.ServicesAbstraction
         
         public int MaxHealth { get; }
         
+        public int CurrentArmor { get; }
+        
         public void Heal(int health);
         public void SetHealth(int health);
         public void AddArmor(int armor);
