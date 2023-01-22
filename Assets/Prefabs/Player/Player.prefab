@@ -555,6 +555,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2247163500473624811}
   - component: {fileID: 5647293616957220324}
+  - component: {fileID: 8189213159638489132}
   m_Layer: 0
   m_Name: RemotePlayerStats
   m_TagString: Untagged
@@ -595,6 +596,70 @@ MonoBehaviour:
   _connectionIdText: {fileID: 2503442008919694498}
   _healthText: {fileID: 5840559938087389179}
   _armorText: {fileID: 5479578118449552595}
+--- !u!114 &8189213159638489132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7460531982324551883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a44a80b9fbf4bbca501c0ee01c87cd7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _cardCount
+      Entry: 3
+      Data: 0
+  _parentNetworkIdentity: {fileID: 5040281174155875907}
+  _leftCorner: {x: -6, y: 0.75, z: 13}
+  _rightCorner: {x: 6, y: 0.9, z: 14}
+  _minRotation: -15
+  _maxRotation: 15
+  _scaleFactor: {x: 0.5, y: 0.02, z: 0.05}
+  _cardPrefab: {fileID: 8521881343644183029, guid: 9cb4fd558f289a04dbd981bf24de1035, type: 3}
+  _cardYPositionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.5
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -2
+      outSlope: -2
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &7905136665162004465
 GameObject:
   m_ObjectHideFlags: 0

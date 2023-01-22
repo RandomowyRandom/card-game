@@ -20,15 +20,44 @@ namespace Player.Hand
         public event Action<Card> OnCardAdded;
         public event Action<Card, int> OnCardRemoved;
         public event Action OnHandCleared;
+        public event Action OnCardKeysAdded;
+        public event Action OnCardKeysRemoved;
+        public event Action OnCardKeysCleared;
         public List<Card> Cards => _cards;
-        
+        public int CardKeysCount => _cardsKeys.Count;
+
+        private void Start()
+        {
+            _cardsKeys.Callback += CardKeysChanged;
+        }
+
         private void OnDestroy()
         {
+            _cardsKeys.Callback -= CardKeysChanged;
+
             if (!isOwned)
                 return;
             
             ServiceLocator.ServiceLocator.Instance.Deregister<IPlayerHand>();
             QuantumRegistry.DeregisterObject(this);
+        }
+        
+        private void CardKeysChanged(SyncList<string>.Operation op, int itemIndex, string oldItem, string newItem)
+        {
+            switch (op)
+            {
+                case SyncList<string>.Operation.OP_ADD:
+                    OnCardKeysAdded?.Invoke();
+                    break;
+                case SyncList<string>.Operation.OP_REMOVEAT:
+                    OnCardKeysRemoved?.Invoke();
+                    break;
+                case SyncList<string>.Operation.OP_CLEAR:
+                    OnCardKeysCleared?.Invoke();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(op), op, null);
+            }
         }
         
         public override void OnStartAuthority()
