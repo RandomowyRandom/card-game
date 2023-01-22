@@ -20,10 +20,11 @@ namespace Player.Hand
         public event Action<Card> OnCardAdded;
         public event Action<Card, int> OnCardRemoved;
         public event Action OnHandCleared;
-        public event Action<int> OnCardKeysAdded;
-        public event Action<int> OnCardKeysRemoved;
-        public event Action<int> OnCardKeysCleared;
+        public event Action OnCardKeysAdded;
+        public event Action OnCardKeysRemoved;
+        public event Action OnCardKeysCleared;
         public List<Card> Cards => _cards;
+        public int CardKeysCount => _cardsKeys.Count;
 
         private void Start()
         {
@@ -46,13 +47,13 @@ namespace Player.Hand
             switch (op)
             {
                 case SyncList<string>.Operation.OP_ADD:
-                    OnCardKeysAdded?.Invoke(_cardsKeys.Count);
+                    OnCardKeysAdded?.Invoke();
                     break;
                 case SyncList<string>.Operation.OP_REMOVEAT:
-                    OnCardKeysRemoved?.Invoke(_cardsKeys.Count);
+                    OnCardKeysRemoved?.Invoke();
                     break;
                 case SyncList<string>.Operation.OP_CLEAR:
-                    OnCardKeysCleared?.Invoke(0);
+                    OnCardKeysCleared?.Invoke();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(op), op, null);
