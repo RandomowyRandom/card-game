@@ -25,6 +25,7 @@ namespace Player
         private Camera _mainCamera;
         
         private IPlayerHealth _playerHealth;
+        private IPlayerData _playerData;
 
         private void Start()
         {
@@ -36,17 +37,22 @@ namespace Player
             
             _mainCamera = Camera.main;
             _playerHealth = _parentNetworkIdentity.GetComponent<IPlayerHealth>();
+            _playerData = _parentNetworkIdentity.GetComponent<PlayerData>();
             
             _playerHealth.OnHealthChanged += UpdateHealth;
             _playerHealth.OnArmorChanged += UpdateArmor;
             UpdateHealth(_playerHealth.CurrentHealth);
             UpdateArmor(_playerHealth.CurrentArmor);
-
-            _connectionIdText.text = _parentNetworkIdentity.isServer ?
-                _parentNetworkIdentity.connectionToClient.connectionId.ToString()
-                : string.Empty;
+            
+            _playerData.OnUsernameChanged += UpdateUsername;
+            UpdateUsername(_playerData.Username);
         }
 
+        private void Update()
+        { 
+            transform.rotation = Quaternion.LookRotation(transform.position - _mainCamera.transform.position);
+        }
+        
         private void OnDisable()
         {
             if(_parentNetworkIdentity.isOwned)
@@ -54,6 +60,7 @@ namespace Player
             
             _playerHealth.OnHealthChanged -= UpdateHealth;
             _playerHealth.OnArmorChanged -= UpdateArmor;
+            _playerData.OnUsernameChanged -= UpdateUsername;
         }
 
         private void UpdateArmor(int amount)
@@ -66,9 +73,9 @@ namespace Player
             _healthText.SetText(amount.ToString());
         }
 
-        private void Update()
-        { 
-            transform.rotation = Quaternion.LookRotation(transform.position - _mainCamera.transform.position);
+        private void UpdateUsername(string username)
+        {
+            _connectionIdText.SetText(username);
         }
     }
 }

@@ -620,13 +620,11 @@ MonoBehaviour:
     - Name: _cardCount
       Entry: 3
       Data: 0
-  _parentNetworkIdentity: {fileID: 5040281174155875907}
   _leftCorner: {x: -6, y: 0.75, z: 13}
   _rightCorner: {x: 6, y: 0.9, z: 14}
   _minRotation: -15
   _maxRotation: 15
   _scaleFactor: {x: 0.5, y: 0.02, z: 0.05}
-  _cardPrefab: {fileID: 8521881343644183029, guid: 9cb4fd558f289a04dbd981bf24de1035, type: 3}
   _cardYPositionCurve:
     serializedVersion: 2
     m_Curve:
@@ -660,6 +658,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  _parentNetworkIdentity: {fileID: 5040281174155875907}
+  _cardPrefab: {fileID: 8521881343644183029, guid: 9cb4fd558f289a04dbd981bf24de1035, type: 3}
 --- !u!1 &7905136665162004465
 GameObject:
   m_ObjectHideFlags: 0
@@ -847,6 +847,7 @@ GameObject:
   - component: {fileID: 1294194690721895992}
   - component: {fileID: -4892732802799589972}
   - component: {fileID: 2769439739690090379}
+  - component: {fileID: 382944303590565096}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -961,6 +962,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f66f39a68f174c7c89e61c7817c8a516, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+--- !u!114 &382944303590565096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8052382639066881221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b0d97f548834586b4c9bfa6a0aa1226, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 0
