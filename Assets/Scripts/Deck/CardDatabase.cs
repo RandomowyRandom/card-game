@@ -15,6 +15,12 @@ namespace Deck
         [SerializeField] 
         private List<Card> _cards;
 
+        [Button("Get All Cards")]
+        private void GetAllCards()
+        {
+            _cards = Resources.LoadAll<Card>("NetworkedScriptables").ToList();
+        }
+        
         public List<Card> GetCards()
         {
             var cards = new List<Card>();

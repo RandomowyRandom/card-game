@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97138b142fba45368753ec7e1b76a462, type: 3}
+  m_Name: DEFENSE_II
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: _cardEffects
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[Scriptables.Cards.Abstractions.ICardEffect,
+        Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 1|Scriptables.Cards.Effects.DefenseCardEffect, Assembly-CSharp
+    - Name: _defense
+      Entry: 3
+      Data: 4
+    - Name: <TargetProvider>k__BackingField
+      Entry: 7
+      Data: 2|Scriptables.Cards.Targets.SelfTarget, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+  _cardName: Defense II
+  _description: Gain 4 defense
+  _rarity: 0
+  _cardSprite: {fileID: 21300000, guid: d413ef21685b1cc45ab4a9c4a5cb2fa8, type: 3}
+  _upgradeCard: {fileID: 11400000, guid: b72a84853e0c3c340a7d51a78d6b3946, type: 2}
+  _energyCost: 1
+  _isSpecial: 0
