@@ -67,7 +67,7 @@ MonoBehaviour:
   _cardName: Tight armor
   _description: Lose 10 health, gain 20 armor
   _rarity: 2
-  _cardSprite: {fileID: 0}
+  _cardSprite: {fileID: 21300000, guid: 1ef234912ca6bc04d9c3bf8bc01f51dd, type: 3}
   _upgradeCard: {fileID: 11400000, guid: e0ee872616856444c991772b01846211, type: 2}
   _energyCost: 3
   _isSpecial: 0

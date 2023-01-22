@@ -67,7 +67,7 @@ MonoBehaviour:
   _cardName: Thrown potion
   _description: Heal 15 HP yourself, heal 5 HP all the other players
   _rarity: 0
-  _cardSprite: {fileID: 0}
+  _cardSprite: {fileID: 21300000, guid: 64a90604cf2f28240b692fe582445803, type: 3}
   _upgradeCard: {fileID: 11400000, guid: 7d734ff67aab5584bb5f2e9c918c74fe, type: 2}
   _energyCost: 2
   _isSpecial: 0
