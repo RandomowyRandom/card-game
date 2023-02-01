@@ -1,4 +1,5 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using Player.Hand;
 using Scriptables.Cards.Abstractions;
 using ServiceLocator.ServicesAbstraction;
@@ -14,11 +15,19 @@ namespace Scriptables.Cards.Effects
         
         [field: OdinSerialize]
         private int Amount { get; }
-        public void OnUse()
-        {
-            var targets = TargetProvider.GetTargets();
+        
+        public bool IsAsync => TargetProvider is IAsyncTargetProvider;
 
-            foreach (var target in targets)
+        public async UniTask OnUse()
+        {
+            var targets = TargetProvider switch
+            {
+                ISyncTargetProvider syncTargetProvider => syncTargetProvider.GetTargets(),
+                IAsyncTargetProvider asyncTargetProvider => await asyncTargetProvider.GetTargets(),
+                _ => null
+            };
+
+            foreach (var target in targets!)
             {
                 var hand = target.GetComponent<IPlayerHand>();
                 var deck = ServiceLocator.ServiceLocator.Instance.Get<ICardDeck>();

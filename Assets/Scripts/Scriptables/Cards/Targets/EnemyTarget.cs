@@ -6,7 +6,7 @@ using Scriptables.Cards.Abstractions;
 namespace Scriptables.Cards.Targets
 {
     [Serializable]
-    public class EnemyTarget: ITargetProvider
+    public class EnemyTarget: ISyncTargetProvider
     {
         private IPlayersManager _playersManager;
         public NetworkIdentity[] GetTargets()

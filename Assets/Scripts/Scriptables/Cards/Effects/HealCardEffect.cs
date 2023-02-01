@@ -1,8 +1,11 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
+using Mirror;
 using Scriptables.Cards.Abstractions;
 using ServiceLocator.ServicesAbstraction;
 using Sirenix.Serialization;
 using UnityEngine;
+using UnityEngine.Networking.Types;
 
 namespace Scriptables.Cards.Effects
 {
@@ -15,11 +18,18 @@ namespace Scriptables.Cards.Effects
         [field: OdinSerialize]
         public ITargetProvider TargetProvider { get; }
 
-        public void OnUse()
+        public bool IsAsync => TargetProvider is IAsyncTargetProvider;
+
+        public async UniTask OnUse()
         {
-            var targets = TargetProvider.GetTargets();
-            
-            foreach (var target in targets)
+            var targets = TargetProvider switch
+            {
+                ISyncTargetProvider syncTargetProvider => syncTargetProvider.GetTargets(),
+                IAsyncTargetProvider asyncTargetProvider => await asyncTargetProvider.GetTargets(),
+                _ => null
+            };
+
+            foreach (var target in targets!)
             {
                 var playerHealth = target.GetComponent<IPlayerHealth>();
                 playerHealth.Heal(_healAmount);

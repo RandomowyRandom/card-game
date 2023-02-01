@@ -2,7 +2,7 @@
 
 namespace Scriptables.Cards.Abstractions
 {
-    public interface ITargetProvider
+    public interface ISyncTargetProvider: ITargetProvider
     {
         public NetworkIdentity[] GetTargets();
     }

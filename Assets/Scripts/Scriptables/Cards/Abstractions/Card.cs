@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Cards;
 using Common.Attributes;
+using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEngine;
@@ -67,11 +68,14 @@ namespace Scriptables.Cards.Abstractions
         
         public CardRarity Rarity => _rarity;
 
-        public virtual void Use()
+        public virtual async UniTask Use()
         {
             foreach (var effect in _cardEffects)
             {
-                effect.OnUse();
+                if(effect.IsAsync)
+                    await effect.OnUse();
+                else
+                    effect.OnUse();
             }
         }
     }
