@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Cards;
 using Common.Attributes;
 using Cysharp.Threading.Tasks;
+using ServiceLocator.ServicesAbstraction;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
 using UnityEngine;
@@ -11,6 +13,8 @@ namespace Scriptables.Cards.Abstractions
     [ScriptableFactoryElement]
     public class Card : SerializedScriptableObject
     {
+        public static event Action<Card> OnCardUsedLocally;
+
         [SerializeField]
         private string _cardName;
         
@@ -40,7 +44,7 @@ namespace Scriptables.Cards.Abstractions
         [Space(5)] [OdinSerialize]
         private List<ICardEffect> _cardEffects;
         
-        [InfoBox("TestCard button for debug purposes only!", InfoMessageType.Warning)]
+        [InfoBox("TestCard button for debug purposes only! (might not work as expected)", InfoMessageType.Warning)]
         [Button]
         private void TestCard()
         {
@@ -53,7 +57,6 @@ namespace Scriptables.Cards.Abstractions
             Use();
         }
 
-        
         public string CardName => _cardName;
 
         public string Description => _description;
@@ -77,6 +80,8 @@ namespace Scriptables.Cards.Abstractions
                 else
                     effect.OnUse();
             }
+            
+            OnCardUsedLocally?.Invoke(this);
         }
     }
 }

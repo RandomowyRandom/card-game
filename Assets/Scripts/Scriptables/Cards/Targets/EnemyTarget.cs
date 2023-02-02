@@ -1,19 +1,30 @@
 ﻿using System;
-using Common.Networking.PlayerManagement;
+using Cysharp.Threading.Tasks;
 using Mirror;
+using Player;
 using Scriptables.Cards.Abstractions;
+using ServiceLocator.ServicesAbstraction;
 
 namespace Scriptables.Cards.Targets
 {
     [Serializable]
-    public class EnemyTarget: ISyncTargetProvider
+    public class EnemyTarget: IAsyncTargetProvider
     {
-        private IPlayersManager _playersManager;
-        public NetworkIdentity[] GetTargets()
+        private IEnemySelectionManager _enemySelectionManager;
+        public async UniTask<NetworkIdentity[]> GetTargets()
         {
-            _playersManager ??= ServiceLocator.ServiceLocator.Instance.Get<IPlayersManager>();
+            _enemySelectionManager ??= ServiceLocator.ServiceLocator.Instance.Get<IEnemySelectionManager>();
 
-            return new []{_playersManager.GetLocalPlayer()} ; //TODO: get enemy instead of local player
+            PlayerData enemy;
+            
+            do
+                enemy = await _enemySelectionManager.GetSelectedEnemy();
+            while 
+                (enemy == null);
+
+            var enemyNetworkIdentity = enemy.GetComponent<NetworkIdentity>();
+            
+            return new []{enemyNetworkIdentity};
         }
     }
 }
