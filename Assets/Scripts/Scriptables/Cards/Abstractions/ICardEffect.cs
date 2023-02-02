@@ -1,8 +1,11 @@
-﻿namespace Scriptables.Cards.Abstractions
+﻿using Cysharp.Threading.Tasks;
+
+namespace Scriptables.Cards.Abstractions
 {
     public interface ICardEffect
     {
         public ITargetProvider TargetProvider { get; }
-        public void OnUse();
+        public bool IsAsync { get; }
+        public UniTask OnUse();
     }
 }

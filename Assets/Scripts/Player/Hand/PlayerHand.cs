@@ -174,6 +174,18 @@ namespace Player.Hand
 
         #region QC
 
+        [QFSW.QC.Command("add-card", MonoTargetType.Registry)] [UsedImplicitly]
+        private void CommandAddCardByKeys(string cardKey)
+        {
+            var cardDeck = ServiceLocator.ServiceLocator.Instance.Get<ICardDeck>();
+            var playerHand = FindObjectsOfType<PlayerHand>().Where(h => h.isOwned).ToList();
+
+            var card = cardDeck.DrawCard(cardKey);
+            playerHand[0].AddCard(card);
+            
+            Debug.Log($"Added {card.name} to the player's hand");
+        }
+
         [QFSW.QC.Command("add-random-card", MonoTargetType.Registry)] [UsedImplicitly]
         private void CommandAddRandomCard(int amount = 1)
         {

@@ -1,7 +1,4 @@
-﻿using System;
-using Common.Networking.PlayerManagement;
-using Mirror;
-using TMPro;
+﻿using TMPro;
 using UnityEngine;
 
 namespace Player.Username

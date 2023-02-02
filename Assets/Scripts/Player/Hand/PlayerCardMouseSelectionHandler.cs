@@ -15,12 +15,16 @@ namespace Player.Hand
         private CardWorld _selectedCard;
         
         private Camera _camera;
+        
+        private bool _isSelectionBlocked;
 
         public CardWorld SelectedCard => _selectedCard;
-        
-        
+
         private void Update()
         {
+            if (_isSelectionBlocked)
+                return;
+            
             var ray = _camera.ScreenPointToRay(Input.mousePosition);
             
             if (!Physics.Raycast(ray, out var hitInfo, float.PositiveInfinity, _layerMask))
@@ -59,6 +63,11 @@ namespace Player.Hand
         private void OnDestroy()
         {
             ServiceLocator.ServiceLocator.Instance.Deregister<ICardSelectionHandler>();
+        }
+        
+        public void BlockSelection(bool block)
+        {
+            _isSelectionBlocked = block;
         }
     }
 }

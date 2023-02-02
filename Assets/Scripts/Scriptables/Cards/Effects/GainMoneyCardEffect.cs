@@ -1,4 +1,5 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using Scriptables.Cards.Abstractions;
 using ServiceLocator.ServicesAbstraction;
 using Sirenix.Serialization;
@@ -14,12 +15,19 @@ namespace Scriptables.Cards.Effects
 
         [field: OdinSerialize]
         public ITargetProvider TargetProvider { get; }
+        public bool IsAsync => TargetProvider is IAsyncTargetProvider;
 
-        public void OnUse()
+
+        public async UniTask OnUse()
         {
-            var targets = TargetProvider.GetTargets();
+            var targets = TargetProvider switch
+            {
+                ISyncTargetProvider syncTargetProvider => syncTargetProvider.GetTargets(),
+                IAsyncTargetProvider asyncTargetProvider => await asyncTargetProvider.GetTargets(),
+                _ => null
+            };
             
-            foreach (var target in targets)
+            foreach (var target in targets!)
             {
                 var playerHealth = target.GetComponent<IPlayerWallet>();
                 playerHealth.AddMoney(_money);

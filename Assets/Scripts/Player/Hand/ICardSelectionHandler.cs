@@ -10,5 +10,7 @@ namespace Player.Hand
         public event Action<CardWorld> OnDeselected;
         
         public CardWorld SelectedCard { get; }
+        
+        public void BlockSelection(bool block);
     }
 }

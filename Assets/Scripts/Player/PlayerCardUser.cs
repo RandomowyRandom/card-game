@@ -1,4 +1,5 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using Mirror;
 using Player.Hand;
 using ServiceLocator.ServicesAbstraction;
@@ -51,10 +52,9 @@ namespace Player
                 return;
             
             var result = TryUseCard();
-            Debug.Log(result);
         }
 
-        private bool TryUseCard()
+        private async UniTask<bool> TryUseCard()
         {
             if (CardSelectionHandler.SelectedCard == null)
                 return false;
@@ -66,7 +66,7 @@ namespace Player
             
             PlayerEnergy.RemoveEnergy(selectedCard.EnergyCost);
             
-            selectedCard.Use();
+            await selectedCard.Use();
             
             PlayerHand.RemoveCard(selectedCard);
             return true;

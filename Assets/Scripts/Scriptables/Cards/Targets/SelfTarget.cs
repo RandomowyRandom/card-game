@@ -6,7 +6,7 @@ using Scriptables.Cards.Abstractions;
 namespace Scriptables.Cards.Targets
 {
     [Serializable]
-    public class SelfTarget: ITargetProvider
+    public class SelfTarget: ISyncTargetProvider
     {
         private IPlayersManager _playersManager;
 

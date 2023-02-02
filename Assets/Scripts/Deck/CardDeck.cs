@@ -37,6 +37,11 @@ namespace Deck
             return _cardDatabase.GetRandomCard(rarities);
         }
 
+        public Card DrawCard(string key)
+        {
+            return _cardDatabase.GetCardByKey(key);
+        }
+
         public void ReturnCard(Card card)
         {
             throw new NotImplementedException();
