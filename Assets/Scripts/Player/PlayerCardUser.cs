@@ -38,12 +38,14 @@ namespace Player
             }
         }
 
+        private bool _useLock;
+
         public override void OnStartAuthority()
         {
             ServiceLocator.ServiceLocator.Instance.Register<IPlayerCardUser>(this);
         }
 
-        private void Update()
+        private async void Update()
         {
             if(!isOwned)
                 return;
@@ -51,11 +53,14 @@ namespace Player
             if (!Input.GetMouseButtonDown(0))
                 return;
             
-            var result = TryUseCard();
+            await TryUseCard();
         }
 
         private async UniTask<bool> TryUseCard()
         {
+            if (_useLock)
+                return false;
+
             if (CardSelectionHandler.SelectedCard == null)
                 return false;
             
@@ -64,11 +69,14 @@ namespace Player
             if(PlayerEnergy.CurrentEnergy < selectedCard.EnergyCost)
                 return false;
             
-            PlayerEnergy.RemoveEnergy(selectedCard.EnergyCost);
-            
+            _useLock = true;
             await selectedCard.Use();
             
+            PlayerEnergy.RemoveEnergy(selectedCard.EnergyCost);
+
             PlayerHand.RemoveCard(selectedCard);
+            _useLock = false;
+            
             return true;
         }
         
