@@ -9,6 +9,8 @@ namespace ServiceLocator
     {
         public event Action<Type> OnServiceRegistered;
         
+        public event Action<Type> OnServiceDeregistered; 
+
         private static ServiceLocator _instance;
 
         private static Dictionary<Type, IService> _registeredServices;
@@ -65,6 +67,8 @@ namespace ServiceLocator
         public void Deregister<T>() where T : IService
         {
             _registeredServices.Remove(typeof(T));
+            
+            OnServiceDeregistered?.Invoke(typeof(T));
         }
         
         public T Get<T>() where T : IService

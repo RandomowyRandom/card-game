@@ -1,12 +1,11 @@
-﻿using System;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using Player;
 using Player.Hand;
 using Scriptables.Cards.Abstractions;
 using ServiceLocator.ServicesAbstraction;
 using UnityEngine;
 
-namespace Common
+namespace Common.Managers
 {
     public class EnemySelectionManager: MonoBehaviour, IEnemySelectionManager
     {
