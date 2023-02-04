@@ -28,10 +28,15 @@ namespace Cards
         [SerializeField]
         private CardDatabase _cardDatabase;
         
+        private Card _card;
+        
         public Transform CardMesh => _cardMesh;
+        public Card Card => _card;
         
         public void SetCard(Card card)
         {
+            _card = card;
+            
             _cardName.text = card.CardName;
             _cardDescription.text = card.Description;
             _cardCost.text = card.EnergyCost.ToString();

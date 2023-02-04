@@ -12,8 +12,18 @@ namespace ServiceLocator.ServicesAbstraction
         
         public event Action OnHandCleared;
         
-        public List<Card> Cards { get; }
+        public event Action OnCardKeysAdded;
         
+        public event Action OnCardKeysRemoved;
+        
+        public event Action OnCardKeysCleared;
+        
+        public List<Card> Cards { get; }
+        public int CardKeysCount { get; }
+
+        public void UpgradeCard(Card card);
+        public bool UpgradeDeck();
+        public bool UpgradeRandomCard();
         public void AddCard(Card card);
         public void RemoveCard(Card card);
     }

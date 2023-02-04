@@ -15,12 +15,17 @@ namespace Player.Hand
         private CardWorld _selectedCard;
         
         private Camera _camera;
+        
+        private bool _isSelectionBlocked;
 
         public CardWorld SelectedCard => _selectedCard;
+
         private void Update()
         {
+            if (_isSelectionBlocked)
+                return;
+            
             var ray = _camera.ScreenPointToRay(Input.mousePosition);
-            Debug.DrawRay(ray.origin, ray.direction * 100, Color.red);
             
             if (!Physics.Raycast(ray, out var hitInfo, float.PositiveInfinity, _layerMask))
             {
@@ -48,6 +53,21 @@ namespace Player.Hand
         private void Awake()
         {
             _camera = Camera.main;
+            
+            if(ServiceLocator.ServiceLocator.Instance.IsRegistered<ICardSelectionHandler>())
+                return;
+            
+            ServiceLocator.ServiceLocator.Instance.Register<ICardSelectionHandler>(this);
+        }
+        
+        private void OnDestroy()
+        {
+            ServiceLocator.ServiceLocator.Instance.Deregister<ICardSelectionHandler>();
+        }
+        
+        public void BlockSelection(bool block)
+        {
+            _isSelectionBlocked = block;
         }
     }
 }

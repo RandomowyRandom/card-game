@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Common.Networking.PlayerManagement;
 using JetBrains.Annotations;
 using Mirror;
 using QFSW.QC;
@@ -23,7 +24,6 @@ namespace Player
         
         public int CurrentHealth => _currentHealth;
         public int CurrentArmor => _currentArmor;
-
         public int MaxHealth => _playerBaseHealthStats.MaxHealth;
         public event Action<int> OnHealthChanged;
         public event Action<int> OnArmorChanged;
@@ -38,6 +38,14 @@ namespace Player
         public override void OnStartAuthority()
         {
             ServiceLocator.ServiceLocator.Instance.Register<IPlayerHealth>(this);
+        }
+        
+        public override void OnStartClient()
+        {
+            if(!isOwned)
+                return;
+            
+            InitializeStats();
         }
         
         public void Heal(int health)
@@ -76,11 +84,6 @@ namespace Player
         {
             CmdSetArmor(armor);
         }
-        
-        public override void OnStartClient()
-        {
-            InitializeStats();
-        }
 
         private void InitializeStats()
         {
@@ -100,7 +103,7 @@ namespace Player
             OnArmorChanged?.Invoke(newArmor);
         }
         
-        [Mirror.Command]
+        [Mirror.Command(requiresAuthority = false)]
         private void CmdSetHealth(int health)
         {
             if(health == 0)
@@ -112,7 +115,7 @@ namespace Player
                 _currentHealth = _playerBaseHealthStats.MaxHealth;
         }
         
-        [Mirror.Command]
+        [Mirror.Command(requiresAuthority = false)]
         private void CmdSetArmor(int armor)
         {
             if(armor < 0)
