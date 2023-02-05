@@ -1,16 +1,31 @@
 ﻿using System;
-using Sirenix.OdinInspector;
+using Mirror;
+using ServiceLocator.ServicesAbstraction;
 using StateMachine;
 
 namespace Player.Hand.States
 {
-    public class PlayerHandStateMachine: SerializedMonoBehaviour, IStateMachine
+    public class PlayerHandStateMachine: NetworkBehaviour, IPlayerHandStateMachine
     {
         public event Action<IState, IState> OnStateChanged;
         public IState CurrentState => _currentState;
-
         private IState _currentState;
-        
+
+        private void Awake()
+        {
+            ServiceLocator.ServiceLocator.Instance.Register<IPlayerHandStateMachine>(this);
+        }
+
+        private void Start()
+        {
+            SetState(new HandInactiveState());
+        }
+
+        private void OnDestroy()
+        {
+            ServiceLocator.ServiceLocator.Instance.Deregister<IPlayerHandStateMachine>();
+        }
+
         public void SetState(IState state)
         {
             _currentState?.Exit();

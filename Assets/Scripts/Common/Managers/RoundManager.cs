@@ -33,42 +33,26 @@ namespace Common.Managers
             ServiceLocator.ServiceLocator.Instance.Deregister<IRoundManager>();
         }
 
-        [Server]
-        public void StartRound(PlayerData playerData)
+        public void NextRound()
         {
-            _currentPlayer = playerData;
-            
-            RpcStartRound(playerData);
-        }
-
-        [Server]
-        public void EndRound(PlayerData playerData)
-        {
-            _roundQueue.Enqueue(playerData);
-            
-            RpcEndRound(playerData);
+            CmdEndRound();
+            CmdStartRound();
         }
 
         [ContextMenu("Start Queue")]
         private void StartQueue()
         {
             var players = PlayersManager.GetAllPlayers();
-
+            _roundQueue.Clear();
+            
             foreach (var playerData in players.Select(player => player.GetComponent<PlayerData>()))
             {
                 _roundQueue.Enqueue(playerData);
             }
             
-            NextRound();
+            CmdStartRound();
         }
-        
-        [ContextMenu("Next Round")]
-        private void NextRound()
-        {
-            StartRound(_roundQueue.Dequeue());
-            EndRound(_currentPlayer);
-        }
-        
+
         #region Networking
         
         [ClientRpc(includeOwner = true)]
@@ -83,6 +67,21 @@ namespace Common.Managers
             OnRoundEnded?.Invoke(playerData);
         }
         
+        [Command(requiresAuthority = false)]
+        private void CmdStartRound()
+        {
+            _currentPlayer = _roundQueue.Dequeue();
+            
+            _roundQueue.Enqueue(_currentPlayer);
+            RpcStartRound(_currentPlayer);
+        }
+        
+        [Command(requiresAuthority = false)]
+        private void CmdEndRound()
+        {
+            RpcEndRound(_currentPlayer);
+        }
+
         #endregion
     }
 }

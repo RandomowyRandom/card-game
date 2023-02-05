@@ -1,7 +1,4 @@
 ﻿using System;
-using Common.Attributes;
-using Sirenix.OdinInspector;
-using Sirenix.Serialization;
 using StateMachine;
 
 namespace Player.Hand.States
@@ -9,16 +6,19 @@ namespace Player.Hand.States
     [Serializable]
     public class HandEnemySelectionState: IState
     {
-        [OdinSerialize]
         private ICardSelectionHandler _cardSelectionHandler;
+        
+        private ICardSelectionHandler CardSelectionHandler => _cardSelectionHandler ??= ServiceLocator.ServiceLocator.Instance.Get<ICardSelectionHandler>();
         public void Enter()
         {
-            _cardSelectionHandler.BlockSelection(true);
+            // TODO: block end turn button
+            CardSelectionHandler.BlockSelection(true);
         }
 
         public void Exit()
         {
-            _cardSelectionHandler.BlockSelection(false);
+            // TODO: unblock end turn button
+            CardSelectionHandler.BlockSelection(false);
         }
 
         public void Tick()

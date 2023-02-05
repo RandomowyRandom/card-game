@@ -7,16 +7,17 @@ namespace Player.Hand.States
     [Serializable]
     public class HandInactiveState: IState
     {
-        [OdinSerialize]
         private ICardSelectionHandler _cardSelectionHandler;
+        
+        private ICardSelectionHandler CardSelectionHandler => _cardSelectionHandler ??= ServiceLocator.ServiceLocator.Instance.Get<ICardSelectionHandler>();
         public void Enter()
         {
-            _cardSelectionHandler.BlockSelection(true);
+            CardSelectionHandler.BlockSelection(true);
         }
 
         public void Exit()
         {
-            _cardSelectionHandler.BlockSelection(false);
+            CardSelectionHandler.BlockSelection(false);
         }
 
         public void Tick()
