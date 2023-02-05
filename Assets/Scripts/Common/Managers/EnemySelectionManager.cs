@@ -1,15 +1,29 @@
-﻿using System;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using Player;
 using Player.Hand;
+using Player.Hand.States;
 using Scriptables.Cards.Abstractions;
 using ServiceLocator.ServicesAbstraction;
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
+using StateMachine;
 using UnityEngine;
 
-namespace Common
+namespace Common.Managers
 {
-    public class EnemySelectionManager: MonoBehaviour, IEnemySelectionManager
+    public class EnemySelectionManager: SerializedMonoBehaviour, IEnemySelectionManager
     {
+        [SerializeField]
+        private PlayerHandStateMachine _playerHandStateMachine;
+        
+        [Space(5)]
+        
+        [OdinSerialize]
+        private IState _activeState;
+        
+        [OdinSerialize]
+        private IState _enemySelectionState;
+        
         private Camera _camera;
         private PlayerData _selectedEnemy;
         private ICardSelectionHandler _cardSelectionHandler;
@@ -39,7 +53,7 @@ namespace Common
             if(_selectedEnemy != null)
                 return _selectedEnemy;
 
-            _cardSelectionHandler?.BlockSelection(true);
+            _playerHandStateMachine.SetState(_enemySelectionState);
             
             Debug.Log("Waiting for enemy selection");
             await UniTask.WaitUntil(() => Input.GetMouseButtonDown(0));
@@ -57,7 +71,7 @@ namespace Common
                 return null;
             
             _selectedEnemy = enemy;
-            _cardSelectionHandler?.BlockSelection(false);
+            _playerHandStateMachine.SetState(_activeState);
             
             return _selectedEnemy;
         }
