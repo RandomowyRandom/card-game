@@ -954,6 +954,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  _cardDrawConfiguration: {fileID: 11400000, guid: bf32c00c8875e4643bacc6949bd6f4bf, type: 2}
 --- !u!114 &2769439739690090379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1008,18 +1009,12 @@ MonoBehaviour:
     - Name: _roundStartedState
       Entry: 7
       Data: 0|Player.Hand.States.HandActiveState, Assembly-CSharp
-    - Name: _cardSelectionHandler
-      Entry: 6
-      Data: 
     - Name: 
       Entry: 8
       Data: 
     - Name: _roundEndedState
       Entry: 7
       Data: 1|Player.Hand.States.HandInactiveState, Assembly-CSharp
-    - Name: _cardSelectionHandler
-      Entry: 6
-      Data: 
     - Name: 
       Entry: 8
       Data: 

@@ -7,6 +7,7 @@ using JetBrains.Annotations;
 using Mirror;
 using QFSW.QC;
 using Scriptables.Cards.Abstractions;
+using Scriptables.Player;
 using ServiceLocator.ServicesAbstraction;
 using UnityEngine;
 
@@ -14,6 +15,9 @@ namespace Player.Hand
 {
     public class PlayerHand : NetworkBehaviour, IPlayerHand
     {
+        [SerializeField]
+        private PlayerCardDrawConfiguration _cardDrawConfiguration;
+        
         private List<Card> _cards = new();
         
         private readonly SyncList<string> _cardsKeys = new();
@@ -25,6 +29,10 @@ namespace Player.Hand
         public event Action OnCardKeysCleared;
         public List<Card> Cards => _cards;
         public int CardKeysCount => _cardsKeys.Count;
+        
+        private IRoundManager _roundManager;
+        
+        private ICardDeck _cardDeck;
 
         private void Start()
         {
@@ -40,30 +48,19 @@ namespace Player.Hand
             
             ServiceLocator.ServiceLocator.Instance.Deregister<IPlayerHand>();
             QuantumRegistry.DeregisterObject(this);
+            
+            _roundManager.OnRoundStarted -= TryDrawCards;
         }
-        
-        private void CardKeysChanged(SyncList<string>.Operation op, int itemIndex, string oldItem, string newItem)
-        {
-            switch (op)
-            {
-                case SyncList<string>.Operation.OP_ADD:
-                    OnCardKeysAdded?.Invoke();
-                    break;
-                case SyncList<string>.Operation.OP_REMOVEAT:
-                    OnCardKeysRemoved?.Invoke();
-                    break;
-                case SyncList<string>.Operation.OP_CLEAR:
-                    OnCardKeysCleared?.Invoke();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(op), op, null);
-            }
-        }
-        
+
         public override void OnStartAuthority()
         {
             ServiceLocator.ServiceLocator.Instance.Register<IPlayerHand>(this);
             QuantumRegistry.RegisterObject(this);
+            
+            _roundManager = ServiceLocator.ServiceLocator.Instance.Get<IRoundManager>();
+            _cardDeck = ServiceLocator.ServiceLocator.Instance.Get<ICardDeck>();
+            
+            _roundManager.OnRoundStarted += TryDrawCards;
         }
 
         public void AddCard(Card card)
@@ -148,6 +145,38 @@ namespace Player.Hand
                 return;
 
             OnHandCleared?.Invoke();
+        }
+
+        private void CardKeysChanged(SyncList<string>.Operation op, int itemIndex, string oldItem, string newItem)
+        {
+            switch (op)
+            {
+                case SyncList<string>.Operation.OP_ADD:
+                    OnCardKeysAdded?.Invoke();
+                    break;
+                case SyncList<string>.Operation.OP_REMOVEAT:
+                    OnCardKeysRemoved?.Invoke();
+                    break;
+                case SyncList<string>.Operation.OP_CLEAR:
+                    OnCardKeysCleared?.Invoke();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(op), op, null);
+            }
+        }
+        
+        private void TryDrawCards(PlayerData player)
+        {
+            if(!player.isOwned)
+                return;
+            
+            var cardAmount = _cardDrawConfiguration.GetCardAmount();
+            
+            for (var i = 0; i < cardAmount; i++)
+            {
+                var card = _cardDeck.DrawCard();
+                AddCard(card);
+            }
         }
         
         #region Networking
