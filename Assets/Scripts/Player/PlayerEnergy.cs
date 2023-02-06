@@ -49,6 +49,11 @@ namespace Player
         {
             CmdSetEnergy(amount);
         }
+
+        public void ResetEnergy()
+        {
+            SetEnergy(_playerBaseEnergyStats.MaxEnergy);
+        }
         
         private void OnEnergyChangedHook(int oldEnergy, int newEnergy)
         {

@@ -35,8 +35,10 @@ namespace Player
             if(!_networkIdentity.isOwned)
                 return;
             
-            _roundManager.OnRoundStarted += RoundStarted;
-            _roundManager.OnRoundEnded += RoundEnded;
+            _roundManager.OnRoundStarted += EnableHand;
+            _roundManager.OnRoundEnded += DisableHand;
+            
+            _roundManager.OnRoundStarted += ResetEnergy;
         }
 
         private void OnDestroy()
@@ -44,12 +46,24 @@ namespace Player
             if(!_networkIdentity.isOwned)
                 return;
             
-            _roundManager.OnRoundStarted -= RoundStarted;
-            _roundManager.OnRoundEnded -= RoundEnded;
+            _roundManager.OnRoundStarted -= EnableHand;
+            _roundManager.OnRoundEnded -= DisableHand;
+            
+            _roundManager.OnRoundStarted -= ResetEnergy;
         }
-        private void RoundStarted(PlayerData playerRound)
+
+
+        private void ResetEnergy(PlayerData playerData)
         {
-            if(!playerRound.GetComponent<NetworkIdentity>().isOwned)
+            if(!playerData.isOwned)
+                return;
+
+            playerData.GetComponent<PlayerEnergy>().ResetEnergy();
+        }
+        
+        private void EnableHand(PlayerData playerData)
+        {
+            if(!playerData.isOwned)
                 return;
          
             PlayerHandStateMachine.SetState(_roundStartedState);
@@ -57,9 +71,9 @@ namespace Player
             Debug.Log("Round Started");
         }
         
-        private void RoundEnded(PlayerData playerRound)
+        private void DisableHand(PlayerData playerData)
         {
-            if(!playerRound.GetComponent<NetworkIdentity>().isOwned)
+            if(!playerData.isOwned)
                 return;
             
             PlayerHandStateMachine.SetState(_roundEndedState);
