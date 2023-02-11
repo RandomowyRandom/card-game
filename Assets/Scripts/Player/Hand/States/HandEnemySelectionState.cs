@@ -1,4 +1,5 @@
 ﻿using System;
+using ServiceLocator.ServicesAbstraction;
 using StateMachine;
 
 namespace Player.Hand.States
@@ -7,17 +8,20 @@ namespace Player.Hand.States
     public class HandEnemySelectionState: IState
     {
         private ICardSelectionHandler _cardSelectionHandler;
+        private IRoundButton _roundButton;
         
+        private IRoundButton RoundButton => _roundButton ??= ServiceLocator.ServiceLocator.Instance.Get<IRoundButton>();
         private ICardSelectionHandler CardSelectionHandler => _cardSelectionHandler ??= ServiceLocator.ServiceLocator.Instance.Get<ICardSelectionHandler>();
+        
         public void Enter()
         {
-            // TODO: block end turn button
+            RoundButton.BlockButton(true);
             CardSelectionHandler.BlockSelection(true);
         }
 
         public void Exit()
         {
-            // TODO: unblock end turn button
+            RoundButton.BlockButton(true);
             CardSelectionHandler.BlockSelection(false);
         }
 

@@ -38,8 +38,6 @@ namespace Common.Managers
             CmdEndRound();
             CmdStartRound();
         }
-
-        [ContextMenu("Start Queue")]
         private void StartQueue()
         {
             var players = PlayersManager.GetAllPlayers();
@@ -52,7 +50,7 @@ namespace Common.Managers
             
             CmdStartRound();
         }
-
+        
         #region Networking
         
         [ClientRpc(includeOwner = true)]
@@ -80,6 +78,19 @@ namespace Common.Managers
         private void CmdEndRound()
         {
             RpcEndRound(_currentPlayer);
+        }
+
+        #endregion
+
+        #region QC
+
+        [QFSW.QC.Command("start-queue", "Starts the queue, can be used only on server")] [UsedImplicitly]
+        private void CommandStartQueue()
+        {
+            if(!isServer)
+                return;
+            
+            StartQueue();
         }
 
         #endregion

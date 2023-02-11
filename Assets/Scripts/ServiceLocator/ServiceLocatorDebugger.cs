@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using Sirenix.OdinInspector;
 using Sirenix.Serialization;
+using UnityEngine;
 
 namespace ServiceLocator
 {
@@ -31,5 +33,17 @@ namespace ServiceLocator
         {
             _registeredServices.Remove(type.Name);
         }
+
+        #region QC
+
+        [QFSW.QC.Command("sl-log-services")] [UsedImplicitly]
+        private void CommandLogServices()
+        {
+            foreach (var service in _registeredServices)
+                Debug.Log(service);
+        }
+
+
+        #endregion
     }
 }
