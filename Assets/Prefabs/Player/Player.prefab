@@ -849,6 +849,7 @@ GameObject:
   - component: {fileID: 2769439739690090379}
   - component: {fileID: 382944303590565096}
   - component: {fileID: -1814912587894821966}
+  - component: {fileID: 4914424291037411636}
   - component: {fileID: 2163065727805528246}
   m_Layer: 0
   m_Name: Player
@@ -1018,6 +1019,21 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+--- !u!114 &4914424291037411636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8052382639066881221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f52ebfb6249473eaaee10ed0c235333, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!65 &2163065727805528246
 BoxCollider:
   m_ObjectHideFlags: 0

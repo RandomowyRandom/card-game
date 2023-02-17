@@ -1,5 +1,7 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using Buffs;
+using Cysharp.Threading.Tasks;
 using Scriptables.Cards.Abstractions;
+using ServiceLocator.ServicesAbstraction;
 using Sirenix.Serialization;
 
 namespace Scriptables.Cards.Effects
@@ -9,11 +11,24 @@ namespace Scriptables.Cards.Effects
         [field: OdinSerialize]
         public ITargetProvider TargetProvider { get; }
         
+        [OdinSerialize]
+        private Buff _buff;
+        
         public bool IsAsync => TargetProvider is IAsyncTargetProvider;
         
-        public UniTask OnUse()
+        public async UniTask OnUse()
         {
-            throw new System.NotImplementedException();
+            var targets = TargetProvider switch
+            {
+                ISyncTargetProvider syncTargetProvider => syncTargetProvider.GetTargets(),
+                IAsyncTargetProvider asyncTargetProvider => await asyncTargetProvider.GetTargets(),
+                _ => null
+            };
+
+            foreach (var target in targets!)
+            {
+                target.GetComponent<IPlayerBuffHandler>()?.ApplyBuff(_buff);
+            }
         }
     }
 }
