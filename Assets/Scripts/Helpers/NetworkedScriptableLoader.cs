@@ -8,7 +8,7 @@ namespace Helpers
     {
         private static Dictionary<string, SerializedScriptableObject> _loadedObjects = new();
         
-        public static T GetScriptable<T>(string scriptableName) where T : SerializedScriptableObject
+        public static T GetScriptable<T>(string scriptableName, ScriptablePath path) where T : SerializedScriptableObject
         {
             Initialize();
             
@@ -17,7 +17,7 @@ namespace Helpers
                 return (T) _loadedObjects[scriptableName];
             }
             
-            var scriptable = Resources.Load<T>($"NetworkedScriptables/{scriptableName}");
+            var scriptable = Resources.Load<T>(GetScriptablePath<T>(scriptableName, path));
             
             if (scriptable == null)
             {
@@ -41,6 +41,17 @@ namespace Helpers
             {
                 _loadedObjects.Add(loadedObject.name, loadedObject);
             }
+        }
+        
+        private static string GetScriptablePath<T>(string scriptableName, ScriptablePath path) where T : SerializedScriptableObject
+        {
+            return path switch
+            {
+                ScriptablePath.Cards => $"NetworkedScriptables/Cards/{scriptableName}",
+                ScriptablePath.Buffs => $"NetworkedScriptables/Buffs/{scriptableName}",
+                
+                _ => $"NetworkedScriptables/{scriptableName}"
+            };
         }
     }
 }

@@ -79,7 +79,7 @@ namespace Player
             switch (op)
             {
                 case SyncList<string>.Operation.OP_ADD:
-                    var buff = NetworkedScriptableLoader.GetScriptable<Buff>(newItem);
+                    var buff = NetworkedScriptableLoader.GetScriptable<Buff>(newItem, ScriptablePath.Buffs);
                     _buffs.Add(new PlayerBuff(buff));
                     break;
                 case SyncList<string>.Operation.OP_REMOVEAT:
