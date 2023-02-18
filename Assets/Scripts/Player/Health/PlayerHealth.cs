@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using Common.Networking.PlayerManagement;
 using JetBrains.Annotations;
 using Mirror;
+using Player.States;
 using QFSW.QC;
 using QFSW.QC.Actions;
 using Scriptables.Player;
 using ServiceLocator.ServicesAbstraction;
+using StateMachine;
 using UnityEngine;
 
 namespace Player
@@ -16,30 +18,61 @@ namespace Player
         [SerializeField]
         private PlayerHealthStats _playerBaseHealthStats;
         
+        [SerializeField]
+        private PlayerCardDrawConfiguration _aliveDrawConfiguration;
+        
+        [SerializeField]
+        private PlayerCardDrawConfiguration _deadDrawConfiguration;
+        
         [SyncVar(hook = nameof(OnHealthChangedHook))]
         private int _currentHealth;
         
         [SyncVar(hook = nameof(OnArmorChangedHook))]
         private int _currentArmor;
         
+        private PlayerHealthStateMachine _stateMachine;
+        private IPlayerHand _playerHand;
+        
+        private IState _aliveState;
+        private IState _deadState;
+        
         public int CurrentHealth => _currentHealth;
         public int CurrentArmor => _currentArmor;
         public int MaxHealth => _playerBaseHealthStats.MaxHealth;
         public event Action<int> OnHealthChanged;
         public event Action<int> OnArmorChanged;
+
+        private void Awake()
+        {
+            _stateMachine = GetComponent<PlayerHealthStateMachine>();
+            _playerHand = GetComponent<IPlayerHand>();
+            
+            _aliveState = new AliveState(_playerHand, _aliveDrawConfiguration);
+            _deadState = new DeadState(_playerHand, _deadDrawConfiguration);
+        }
+
         private void OnDestroy()
         {
             if (!isOwned)
                 return;
             
             ServiceLocator.ServiceLocator.Instance.Deregister<IPlayerHealth>();
+            OnHealthChanged -= CheckForDeath;
         }
         
         public override void OnStartAuthority()
         {
             ServiceLocator.ServiceLocator.Instance.Register<IPlayerHealth>(this);
+            
+            OnHealthChanged += CheckForDeath;
         }
-        
+
+        private void CheckForDeath(int newHealth)
+        {
+            if (newHealth <= 0)
+                _stateMachine.SetState(_deadState);
+        }
+
         public override void OnStartClient()
         {
             if(!isOwned)
@@ -87,6 +120,8 @@ namespace Player
 
         private void InitializeStats()
         {
+            _stateMachine.SetState(_aliveState);
+
             CmdSetHealth(_playerBaseHealthStats.StartingHealth);
             CmdSetArmor(_playerBaseHealthStats.StartingArmor);
         }

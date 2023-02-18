@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e68de662d12c42e4989495f3403663ff, type: 3}
-  m_Name: DefaultCardDrawConfiguration
+  m_Name: AliveCardDrawConfiguration
   m_EditorClassIdentifier: 
   serializationData:
     SerializedFormat: 2
@@ -36,3 +36,4 @@ MonoBehaviour:
     - Name: 
       Entry: 8
       Data: 
+  _cardDatabase: {fileID: 11400000, guid: 15b8fac71b698d54d81e811f6ed3ca34, type: 2}

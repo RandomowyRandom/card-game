@@ -1,4 +1,5 @@
 ﻿using System;
+using Scriptables.Player;
 
 namespace ServiceLocator.ServicesAbstraction
 {

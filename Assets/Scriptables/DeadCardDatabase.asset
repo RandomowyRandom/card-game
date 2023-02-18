@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3406bc6f36544b41a23ca999c8748a52, type: 3}
+  m_Name: DeadCardDatabase
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  _cards:
+  - {fileID: 11400000, guid: 315cdd84923439e4b9676bbf15dd14f0, type: 2}
+  - {fileID: 11400000, guid: 9ca92d6793685f34d888335dddbedf44, type: 2}
+  - {fileID: 11400000, guid: 98e11f44a0fd71f48843c20f885f58da, type: 2}
+  - {fileID: 11400000, guid: 2bfa0f1c6ef4b6d4a89cd2cc9198b023, type: 2}
+  - {fileID: 11400000, guid: fa188a29f229e0240b08b096e3671004, type: 2}
+  - {fileID: 11400000, guid: dd93a064067433f47afdc7356b7c165c, type: 2}
+  - {fileID: 11400000, guid: 6f2390004ff321a4da3455a85503b6a2, type: 2}
+  - {fileID: 11400000, guid: f3e702b81798c9d408c6f60597445504, type: 2}
+  - {fileID: 11400000, guid: 3e2a6d6108138dc47863544a02363937, type: 2}
