@@ -26,7 +26,6 @@ namespace Common.Managers
         
         private Camera _camera;
         private PlayerData _selectedEnemy;
-        private ICardSelectionHandler _cardSelectionHandler;
 
         private void Awake()
         {
@@ -35,12 +34,6 @@ namespace Common.Managers
             
             Card.OnCardUsedLocally += ResetSelection;
         }
-
-        private void Start()
-        {
-            _cardSelectionHandler = ServiceLocator.ServiceLocator.Instance.Get<ICardSelectionHandler>();
-        }
-
         private void OnDestroy()
         {
             ServiceLocator.ServiceLocator.Instance.Deregister<IEnemySelectionManager>();
@@ -68,6 +61,11 @@ namespace Common.Managers
                 return null;
             
             if(enemy.isOwned)
+                return null;
+
+            // TODO: later might change the logic slightly, cuz some cards might be able to target dead enemies
+            // but for now it is fine👍
+            if (!enemy.GetComponent<IPlayerHealth>().IsAlive)
                 return null;
             
             _selectedEnemy = enemy;

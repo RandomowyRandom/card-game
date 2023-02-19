@@ -27,6 +27,7 @@ namespace ServiceLocator.ServicesAbstraction
         public bool UpgradeRandomCard();
         public void AddCard(Card card);
         public void RemoveCard(Card card);
+        public void ClearHand();
         public void SetCardDrawConfiguration(PlayerCardDrawConfiguration configuration);
     }
 }

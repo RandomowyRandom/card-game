@@ -23,7 +23,10 @@ namespace Player.States
         public void Enter()
         {
             _playerHand.SetCardDrawConfiguration(_cardDrawConfiguration);
+            _playerHand.ClearHand();
+            
             CardDeck.SetCardDatabase(_cardDrawConfiguration.CardDatabase);
+            
             Debug.Log("Player is dead");
         }
 

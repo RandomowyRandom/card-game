@@ -39,6 +39,7 @@ namespace Player
         public int CurrentHealth => _currentHealth;
         public int CurrentArmor => _currentArmor;
         public int MaxHealth => _playerBaseHealthStats.MaxHealth;
+        public bool IsAlive => _currentHealth > 0;
         public event Action<int> OnHealthChanged;
         public event Action<int> OnArmorChanged;
 
