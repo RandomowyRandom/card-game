@@ -32,21 +32,24 @@ namespace Player
         
         private PlayerHealthStateMachine _stateMachine;
         private IPlayerHand _playerHand;
+        private IPlayerData _playerData;
         
         private IState _aliveState;
         private IState _deadState;
-        
+
         public int CurrentHealth => _currentHealth;
         public int CurrentArmor => _currentArmor;
         public int MaxHealth => _playerBaseHealthStats.MaxHealth;
         public bool IsAlive => _currentHealth > 0;
         public event Action<int> OnHealthChanged;
         public event Action<int> OnArmorChanged;
+        public static event Action<IPlayerData> OnDeath;
 
         private void Awake()
         {
             _stateMachine = GetComponent<PlayerHealthStateMachine>();
             _playerHand = GetComponent<IPlayerHand>();
+            _playerData = GetComponent<IPlayerData>();
             
             _aliveState = new AliveState(_playerHand, _aliveDrawConfiguration);
             _deadState = new DeadState(_playerHand, _deadDrawConfiguration);
@@ -70,8 +73,13 @@ namespace Player
 
         private void CheckForDeath(int newHealth)
         {
-            if (newHealth <= 0)
-                _stateMachine.SetState(_deadState);
+            if (IsAlive) 
+                return;
+            
+            _stateMachine.SetState(_deadState);
+            
+            if(isOwned)
+                CmdOnDeath();
         }
 
         public override void OnStartClient()
@@ -158,6 +166,18 @@ namespace Player
                 armor = 0;
             
             _currentArmor = armor;
+        }
+        
+        [Mirror.Command]
+        private void CmdOnDeath()
+        {
+            RpcOnDeath();
+        }
+        
+        [ClientRpc(includeOwner = true)]
+        private void RpcOnDeath()
+        {
+            OnDeath?.Invoke(_playerData);
         }
         
         #endregion
