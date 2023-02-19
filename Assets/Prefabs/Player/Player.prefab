@@ -850,6 +850,7 @@ GameObject:
   - component: {fileID: 382944303590565096}
   - component: {fileID: -1814912587894821966}
   - component: {fileID: 4914424291037411636}
+  - component: {fileID: 9202295661540744945}
   - component: {fileID: 2163065727805528246}
   m_Layer: 0
   m_Name: Player
@@ -908,6 +909,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   _playerBaseHealthStats: {fileID: 11400000, guid: 724fa59cee49b6c4fb79b05abec5308c, type: 2}
+  _aliveDrawConfiguration: {fileID: 11400000, guid: bf32c00c8875e4643bacc6949bd6f4bf, type: 2}
+  _deadDrawConfiguration: {fileID: 11400000, guid: 9d6d42265a0f514408e16d5e52f0d25a, type: 2}
 --- !u!114 &6790488556757936108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -955,7 +958,6 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  _cardDrawConfiguration: {fileID: 11400000, guid: bf32c00c8875e4643bacc6949bd6f4bf, type: 2}
 --- !u!114 &2769439739690090379
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1034,6 +1036,18 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+--- !u!114 &9202295661540744945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8052382639066881221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4d9f5c36c2f4b95a74cdedf344b740a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!65 &2163065727805528246
 BoxCollider:
   m_ObjectHideFlags: 0

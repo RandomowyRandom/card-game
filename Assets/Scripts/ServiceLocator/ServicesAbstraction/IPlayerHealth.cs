@@ -1,4 +1,5 @@
 ﻿using System;
+using Scriptables.Player;
 
 namespace ServiceLocator.ServicesAbstraction
 {
@@ -12,6 +13,8 @@ namespace ServiceLocator.ServicesAbstraction
         public int MaxHealth { get; }
         
         public int CurrentArmor { get; }
+        
+        public bool IsAlive { get; }
         
         public void Heal(int health);
         public void SetHealth(int health);

@@ -15,10 +15,9 @@ namespace Player.Hand
 {
     public class PlayerHand : NetworkBehaviour, IPlayerHand
     {
-        [SerializeField]
-        private PlayerCardDrawConfiguration _cardDrawConfiguration;
-        
         private List<Card> _cards = new();
+        
+        private PlayerCardDrawConfiguration _currentDrawConfiguration;
         
         private readonly SyncList<string> _cardsKeys = new();
         public event Action<Card> OnCardAdded;
@@ -86,7 +85,12 @@ namespace Player.Hand
             
             OnCardRemoved?.Invoke(card, cardIndex);
         }
-        
+
+        public void SetCardDrawConfiguration(PlayerCardDrawConfiguration configuration)
+        {
+            _currentDrawConfiguration = configuration;
+        }
+
         public void UpgradeCard(Card card)
         {
             var oldCardIndex = _cards.IndexOf(card);
@@ -170,7 +174,7 @@ namespace Player.Hand
             if(!player.isOwned)
                 return;
             
-            var cardAmount = _cardDrawConfiguration.GetCardAmount();
+            var cardAmount = _currentDrawConfiguration.GetCardAmount();
             
             for (var i = 0; i < cardAmount; i++)
             {

@@ -18,7 +18,7 @@ namespace Deck
         [Button("Get All Cards")]
         private void GetAllCards()
         {
-            _cards = Resources.LoadAll<Card>("NetworkedScriptables").ToList();
+            _cards = Resources.LoadAll<Card>("NetworkedScriptables/Cards/").ToList();
         }
         
         public List<Card> GetCards()

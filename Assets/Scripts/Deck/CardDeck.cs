@@ -37,6 +37,11 @@ namespace Deck
             return _cardDatabase.GetRandomCard(rarities);
         }
 
+        public void SetCardDatabase(CardDatabase cardDatabase)
+        {
+            _cardDatabase = cardDatabase;            
+        }
+
         public Card DrawCard(string key)
         {
             return _cardDatabase.GetCardByKey(key);

@@ -1,4 +1,5 @@
 ﻿using Cards;
+using Deck;
 using Scriptables.Cards.Abstractions;
 
 namespace ServiceLocator.ServicesAbstraction
@@ -11,6 +12,7 @@ namespace ServiceLocator.ServicesAbstraction
 
         public Card DrawCard(CardRarity[] rarities);
         public Card DrawCard(string key);
+        public void SetCardDatabase(CardDatabase cardDatabase);
 
         public void ReturnCard(Card card);
     }
